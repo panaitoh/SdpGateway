@@ -1,17 +1,19 @@
-package com.mato.client;
+package com.smk.sdp;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.smk.sdp.smssender.StartSMSSender;
+
 public class PasswordGenerator {
 
-	public String getTimeStamp() {
+	public static String getTimeStamp() {
 		Date date = new Date();
 		SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
 		return df.format(date);
 	}
 
-	public String getPassword(String spid, String sppass, String time) {
+	public static String getPassword(String spid, String sppass, String time) {
 		String pass = spid.trim() + sppass.trim() + time.trim();
 		String mypassword = "";
 		try {
@@ -25,7 +27,7 @@ public class PasswordGenerator {
 			}
 			mypassword = sb.toString().trim();
 		} catch (java.security.NoSuchAlgorithmException e) {
-			SdpMain.logger.info("Java security", e);
+			StartSMSSender.LOGGER.info("Java security", e);
 		}
 
 		return mypassword;

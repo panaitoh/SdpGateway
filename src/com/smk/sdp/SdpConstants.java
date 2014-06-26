@@ -1,4 +1,4 @@
-package com.mato.client;
+package com.smk.sdp;
 
 public interface SdpConstants {
 

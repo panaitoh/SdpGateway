@@ -6,7 +6,7 @@
  */
 package org.csapi.www.wsdl.parlayx.sms.send.v2_2.service;
 
-import com.mato.client.Sdp;
+import com.smk.sdp.smssender.SMSSender;
 
 /*
  *  SendSmsServiceStub java implementation
