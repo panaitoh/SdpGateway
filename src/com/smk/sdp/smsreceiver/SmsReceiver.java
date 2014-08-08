@@ -13,24 +13,26 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
 import com.smk.sdp.SdpConstants;
+import com.smk.sdp.SdpLogger;
 import com.smk.sdp.data.client.DBConnection;
 
 public class SmsReceiver extends DBConnection implements SdpConstants, Job {
 
 	String response = "Thank you for using our services";
 	Connection connect = null;
-
+SdpLogger log = new SdpLogger(this);
 	public SmsReceiver() {
 		try {
 			connect = DBConnection.getConnection();
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			SdpLogger.LOGGER.debug("Connection", e);
+		//	e.printStackTrace();
 		} catch (IOException e) {
-			e.printStackTrace();
+			SdpLogger.LOGGER.debug("Connection", e);
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+			SdpLogger.LOGGER.debug("Connection", e);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			SdpLogger.LOGGER.debug("Connection", e);
 		}
 	}
 
@@ -38,7 +40,7 @@ public class SmsReceiver extends DBConnection implements SdpConstants, Job {
 		String sql = "SELECT id,accountid,serviceid,message,senderAddress,linkid,dateReceived FROM inbox  WHERE status=?";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-
+		SdpLogger.LOGGER.debug("getNewSms() -> Getting new smses");
 		try {
 
 			pstmt = connect.prepareStatement(sql);
@@ -58,9 +60,10 @@ public class SmsReceiver extends DBConnection implements SdpConstants, Job {
 				Statement stmt = connect.createStatement();
 				stmt.execute("UPDATE inbox SET status ="+SMSSENT+" WHERE id="+id);
 				stmt.close();
+				SdpLogger.LOGGER.debug("getNewSms() -> new sms founf from "+ senderAddress);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			SdpLogger.LOGGER.debug("getNewSms()",e);
 		}
 
 	}
@@ -70,6 +73,7 @@ public class SmsReceiver extends DBConnection implements SdpConstants, Job {
 			String dateReceived) {
 		String sql = "INSERT INTO outbox(accountid,message,senderAddress,linkid,serviceid) VALUES(?,?,?,?,?)";
 		PreparedStatement pstmt = null;
+		SdpLogger.LOGGER.debug("saveInOutbox() -> sending a response");
 		try {
 			pstmt = connect.prepareStatement(sql);
 			pstmt.setString(1, accountid);
@@ -80,10 +84,10 @@ public class SmsReceiver extends DBConnection implements SdpConstants, Job {
 			
 			pstmt.execute();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			SdpLogger.LOGGER.debug("saveInOutbox() ->,",e);
 		}
 	}
-
+	
 	@Override
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
 		getNewSms();

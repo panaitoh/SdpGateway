@@ -15,13 +15,10 @@ import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.SchedulerFactory;
 import org.quartz.Trigger;
-
-import com.smk.sdp.notify.Notification;
 import com.smk.sdp.notify.StartNotification;
 import com.smk.sdp.smssender.StartSMSSender;
 
 public class StartSmsReceiver {
-
 	public static Logger LOGGER = null;
 
 	public StartSmsReceiver() {
@@ -57,7 +54,7 @@ public class StartSmsReceiver {
 					.withIdentity("sms", "receiving")
 					.startNow()
 					.withSchedule(
-							simpleSchedule().withIntervalInSeconds(5)
+							simpleSchedule().withIntervalInSeconds(10)
 									.repeatForever()).build();
 			sched.scheduleJob(job, trigger);
 		} catch (Exception e) {

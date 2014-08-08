@@ -1,14 +1,31 @@
 package com.smk.sdp;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import com.smk.sdp.smssender.StartSMSSender;
 
 public class PasswordGenerator {
 
+	public static void main(String args[]) {
+		Calendar calendar2 = Calendar.getInstance();
+		calendar2.setTime(new Date());
+		calendar2.add(Calendar.HOUR_OF_DAY, +7);
+
+		Date t = calendar2.getTime();
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		System.out.println(df.format(t));
+	}
+
 	public static String getTimeStamp() {
-		Date date = new Date();
+		Calendar calendar2 = Calendar.getInstance();
+		calendar2.setTime(new Date());
+		calendar2.add(Calendar.HOUR_OF_DAY, +7);
+
+		Date date = calendar2.getTime();
+
+		// Date date = new Date();
 		SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
 		return df.format(date);
 	}
@@ -29,7 +46,8 @@ public class PasswordGenerator {
 		} catch (java.security.NoSuchAlgorithmException e) {
 			StartSMSSender.LOGGER.info("Java security", e);
 		}
-
+		
+		System.out.println("Password = " + mypassword);
 		return mypassword;
 	}
 }

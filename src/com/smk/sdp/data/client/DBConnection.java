@@ -6,9 +6,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.sql.*;
 import java.util.Properties;
-
-import com.smk.sdp.smssender.StartSMSSender;
-
 public class DBConnection {
 	public static Connection getConnection() throws FileNotFoundException,
 			IOException, ClassNotFoundException, SQLException {
@@ -24,7 +21,6 @@ public class DBConnection {
 		String database = props.getProperty("database-name");
 		String port = props.getProperty("database-port");
 
-		StartSMSSender.LOGGER.info("Starting connection database");
 		Class.forName("com.mysql.jdbc.Driver");
 		String url = "jdbc:mysql://" + server + ":" + port + "/" + database;
 		conn = DriverManager.getConnection(url + "?user=" + username
@@ -32,7 +28,6 @@ public class DBConnection {
 		System.err.println("Connected!!");
 		return conn;
 	}
-
 	public static void closeConnection(Connection conn) {
 		System.err.println("Closed database connection");
 		try {

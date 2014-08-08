@@ -1,10 +1,11 @@
-package com.smk.sdp.smssender;
+package com.smk.sdp.contentloader;
 
+import static org.quartz.JobBuilder.newJob;
+import static org.quartz.SimpleScheduleBuilder.simpleSchedule;
+import static org.quartz.TriggerBuilder.newTrigger;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.Properties;
-
-import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
@@ -12,25 +13,21 @@ import org.quartz.SchedulerException;
 import org.quartz.SchedulerFactory;
 import org.quartz.Trigger;
 
-import static org.quartz.JobBuilder.*;
-import static org.quartz.SimpleScheduleBuilder.*;
-import static org.quartz.TriggerBuilder.*;
+import com.smk.sdp.SdpLogger;
 
-public class StartSMSSender {
-	public static Logger LOGGER;
-
-	public StartSMSSender() {
+public class StartContentLoader {
+	SdpLogger log = new SdpLogger(this);
+	public StartContentLoader() {
 		File file = new File(System.getProperty("user.dir")
 				+ System.getProperty("file.separator") + "log4j.properties");
 		Properties props = new Properties();
 		try {
 			props.load(new FileInputStream(file));
 			PropertyConfigurator.configure(props);
-			LOGGER = Logger.getLogger(StartSMSSender.class);
 		} catch (Exception e) {
-			LOGGER.debug("SDP Properties", e);
+			SdpLogger.LOGGER.debug("SDP Properties", e);
 		}
-		LOGGER.debug("sendsms starting");
+		SdpLogger.LOGGER.debug("Sdp notification starting");
 	}
 
 	/**
@@ -38,24 +35,24 @@ public class StartSMSSender {
 	 * @throws SchedulerException
 	 */
 	public static void main(String[] args) {
-		new StartSMSSender();
+		new StartContentLoader();
 		try {
 			SchedulerFactory schedFact = new org.quartz.impl.StdSchedulerFactory();
+
 			Scheduler sched = schedFact.getScheduler();
+
 			sched.start();
-			JobDetail job = newJob(SMSSender.class).withIdentity("SendSms",
-					"Vasmaster").build();
+			JobDetail job = newJob(ContentLoader.class).withIdentity(
+					"ContentLoader", "contnet_loader").build();
 
 			Trigger trigger = newTrigger()
-					.withIdentity("send", "sms")
+					.withIdentity("getting", "content")
 					.startNow()
 					.withSchedule(
-							simpleSchedule().withIntervalInSeconds(5)
+							simpleSchedule().withIntervalInMinutes(2)
 									.repeatForever()).build();
-
 			sched.scheduleJob(job, trigger);
 		} catch (Exception e) {
-			LOGGER.info("SMSSENDER : ", e);
 			e.printStackTrace();
 		}
 	}

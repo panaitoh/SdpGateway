@@ -2,25 +2,25 @@
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
 	<soapenv:Header>
 		<v2:RequestSOAPHeader xmlns:v2="http://www.huawei.com.cn/schema/common/v2_1">
-			<v2:spId>601399</v2:spId>
-			<v2:spPassword>79eb2aa64e959264128a921624d52541</v2:spPassword>
-			<v2:serviceId>6013992000001442</v2:serviceId>
-			<v2:timeStamp>20140625164833</v2:timeStamp>
-			<v2:linkid>07161722430758000009</v2:linkid>
-			<v2:OA>254722123456</v2:OA>
-			<v2:FA>254722123456</v2:FA>
+			<v2:spId>601033</v2:spId>
+			<v2:spPassword>017a4389885a1ee464594c3c3653c6e8</v2:spPassword>
+			<v2:serviceId>6010332000002839</v2:serviceId>
+			<v2:timeStamp>20140722165153</v2:timeStamp>
+			<v2:linkid>22163915075500011021</v2:linkid>
+			<v2:OA>254254719544939</v2:OA>
+			<v2:FA>254254719544939</v2:FA>
 		</v2:RequestSOAPHeader>
 	</soapenv:Header>
 	<soapenv:Body>
 		<ns3:sendSms xmlns:ns3="http://www.csapi.org/schema/parlayx/sms/send/v2_2/local">
-			<ns3:addresses>tel:254722123456</ns3:addresses>
-			<ns3:senderName>12345</ns3:senderName>
-			<ns3:message>This is a test message</ns3:message>
+			<ns3:addresses>tel:254254719544939</ns3:addresses>
+			<ns3:senderName>1316</ns3:senderName>
+			<ns3:message>You are not subscibed to this service</ns3:message>
 			<ns3:receiptRequest>
-				<endpoint>http://107.170.191.126:8080/supergateway/services/SmsNotificationService
+				<endpoint>http://104.131.253.97:8080/supergateway/services/SmsNotificationService
 				</endpoint>
 				<interfaceName>notifySmsDeliveryReceipt</interfaceName>
-				<correlator>20140625164833</correlator>
+				<correlator>20140722165153</correlator>
 			</ns3:receiptRequest>
 		</ns3:sendSms>
 	</soapenv:Body>

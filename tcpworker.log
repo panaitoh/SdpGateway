@@ -1,0 +1,1073 @@
+Sdp notification starting
+Calling execute on job contnet_loader.ContentLoader
+batch acquisition of 1 triggers
+Checking for new content
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+Calling execute on job contnet_loader.ContentLoader
+batch acquisition of 1 triggers
+Checking for new content
+Sdp notification starting
+Sdp notification starting
+Using default implementation for ThreadExecutor
+Job execution threads will use class loader of thread: main
+Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+Quartz Scheduler v.2.2.1 created.
+RAMJobStore initialized.
+Scheduler meta-data: Quartz Scheduler (v2.2.1) 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+Quartz scheduler 'DefaultQuartzScheduler' initialized from default resource file in Quartz package: 'quartz.properties'
+Quartz scheduler version: 2.2.1
+Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+Checking for available updated version of Quartz...
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader
+Sdp notification starting
+batch acquisition of 0 triggers
+Calling execute on job contnet_loader.ContentLoader
+Checking for new content
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 0 triggers
+batch acquisition of 1 triggers
+Producing instance of Job 'contnet_loader.ContentLoader', class=com.smk.sdp.contentloader.ContentLoader

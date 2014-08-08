@@ -614,7 +614,7 @@ public class SmsNotificationManagerServiceStub extends
 
 			// add the message contxt to the operation client
 			_operationClient.addMessageContext(_messageContext);
-System.out.println(env);
+System.out.println(env.toString());
 			// execute the operation client
 			_operationClient.execute(true);
 

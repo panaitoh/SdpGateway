@@ -11,6 +11,7 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
+
 import javax.xml.namespace.QName;
 
 import org.apache.axiom.om.OMAbstractFactory;
@@ -23,7 +24,6 @@ import org.apache.axis2.client.ServiceClient;
 import org.apache.axis2.databinding.types.URI;
 import org.apache.axis2.databinding.types.URI.MalformedURIException;
 import org.apache.axis2.transport.http.HTTPConstants;
-import org.apache.log4j.Logger;
 import org.csapi.www.schema.parlayx.common.v2_1.SimpleReference;
 import org.csapi.www.schema.parlayx.sms.notification_manager.v2_3.local.StartSmsNotification;
 import org.csapi.www.schema.parlayx.sms.notification_manager.v2_3.local.StartSmsNotificationE;
@@ -39,14 +39,14 @@ import org.quartz.JobExecutionException;
 import com.smk.sdp.Endpoint;
 import com.smk.sdp.PasswordGenerator;
 import com.smk.sdp.SdpConstants;
+import com.smk.sdp.SdpLogger;
 import com.smk.sdp.data.client.DBConnection;
 
-public class Notification extends DBConnection implements SdpConstants, Job {
+public class Notification implements SdpConstants, Job {
 	// Notification
 	private SmsNotificationManagerServiceStub notification_stub = null;
-	public static Logger LOGGER;
+	SdpLogger log = new SdpLogger(this);
 	Date date;
-	SimpleDateFormat df;
 	Connection connect = null;
 
 	public Notification() {
@@ -70,20 +70,19 @@ public class Notification extends DBConnection implements SdpConstants, Job {
 	 * and delivery reports online.
 	 */
 	public void startServiceNotification() {
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		SdpLogger.LOGGER.info("Checking new services");
 		try {
-
-			StartNotification.LOGGER.info("Registering a new service");
-			String sql = "SELECT s.serviceid,s.smsServiceActivationAumber,s.criteria,a.spid,a.password FROM services s INNER JOIN account a WHERE  s.accountid=a.id AND s.status=?;";
-
+			String sql = "SELECT s.serviceid,s.smsServiceActivationNumber,s.criteria,a.spid,a.password FROM services s INNER JOIN account a WHERE  s.accountid=a.id AND s.status=?";
 			pstmt = connect.prepareStatement(sql);
 			pstmt.setInt(1, STATUS_READY);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				String serviceid = rs.getString("serviceid");
 				String smsServiceActivationNumber = rs
-						.getString("smsServiceActivationAumber");
+						.getString("smsServiceActivationNumber");
 				String criteria = rs.getString("criteria");
 				String password = rs.getString("password");
 				String spid = rs.getString("spid");
@@ -91,7 +90,7 @@ public class Notification extends DBConnection implements SdpConstants, Job {
 				Map<String, String> startStopEndpoint = Endpoint
 						.getEndPoint("notification");
 				Map<String, String> deliveryEndPoint = Endpoint
-						.getEndPoint("delivery");
+						.getEndPoint("notifysms");
 
 				notification_stub = new SmsNotificationManagerServiceStub(
 						startStopEndpoint.get("url").toString().trim());
@@ -157,29 +156,32 @@ public class Notification extends DBConnection implements SdpConstants, Job {
 
 				StartSmsNotificationResponse response = responseE
 						.getStartSmsNotificationResponse();
+				SdpLogger.LOGGER.info(response.toString());
 				System.out.println(response.toString());
 				Statement statement = connect.createStatement();
 				statement.execute("update services set correlator ='"
 						+ time_cor + "', status ='" + STATUS_ACTIVE
 						+ "',dateActivated='" + df.format(new Date())
 						+ "' WHERE serviceid = " + serviceid);
-
-				StartNotification.LOGGER.info("SERVICE : " + serviceid + "NOTICATION STARTED");
+				SdpLogger.LOGGER.info("SERVICE : " + serviceid
+						+ "NOTICATION STARTED");
+				SdpLogger.LOGGER.info("SERVICE : " + serviceid
+						+ "NOTICATION STARTED");
 				statement.close();
 			}
-
 		} catch (AxisFault e) {
-			StartNotification.LOGGER.info("Axis fault", e);
+			SdpLogger.LOGGER.info("e", e);
 		} catch (MalformedURIException e) {
-			StartNotification.LOGGER.info("Bad url", e);
+			SdpLogger.LOGGER.info("e", e);
 		} catch (RemoteException e) {
-			StartNotification.LOGGER.info("REMOTE EXCEPTION", e);
+			SdpLogger.LOGGER.info("e", e);
 		} catch (SQLException e) {
-			StartNotification.LOGGER.info("SQL Error:  ", e);
+			SdpLogger.LOGGER.info("e", e);
+
 		} catch (org.csapi.www.wsdl.parlayx.sms.notification_manager.v2_3.service.PolicyException e) {
-			StartNotification.LOGGER.info("Policy Exception", e);
+			SdpLogger.LOGGER.info("e", e);
 		} catch (org.csapi.www.wsdl.parlayx.sms.notification_manager.v2_3.service.ServiceException e) {
-			StartNotification.LOGGER.info("Service Exception", e);
+			SdpLogger.LOGGER.info("e", e);
 		}
 	}
 
@@ -188,16 +190,17 @@ public class Notification extends DBConnection implements SdpConstants, Job {
 	 * reception and delivery reports.
 	 */
 	public void stopServiceNotification() {
-		LOGGER.info("Stop service notification");
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		//LOGGER.info("Stop service notification");
 		String sql = "SELECT s.serviceid,s.correlator,a.spid,a.password FROM services s INNER JOIN account a WHERE  s.accountid=a.id AND s.status=?;";
 		ResultSet rs = null;
 		PreparedStatement pstmt = null;
 		try {
+			SdpLogger.LOGGER.info("Checking services to stop");
 			Map<String, String> startStopEndpoint = Endpoint
 					.getEndPoint("notification");
 			pstmt = connect.prepareStatement(sql);
 			pstmt.setInt(1, STOP_PENDING);
-			pstmt.setInt(2, 100);
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
@@ -258,7 +261,7 @@ public class Notification extends DBConnection implements SdpConstants, Job {
 				StopSmsNotificationE stopE = new StopSmsNotificationE();
 				stopE.setStopSmsNotification(stop);
 
-				// StopSmsNotificationResponseE responseE =
+				//StopSmsNotificationResponseE responseE =
 				notification_stub.stopSmsNotification(stopE);
 				// StopSmsNotificationResponse response = responseE
 				// .getStopSmsNotificationResponse();
@@ -267,19 +270,20 @@ public class Notification extends DBConnection implements SdpConstants, Job {
 						+ STATUS_STOPPED + ",date_deactivated='"
 						+ df.format(new Date() + "'") + " where serviceid = "
 						+ serviceid);
-				LOGGER.info("Service : " + serviceid + " has been deactivated:");
+				SdpLogger.LOGGER.info("Service : " + serviceid
+						+ " has been deactivated:");
 				statement.close();
 			}
 		} catch (AxisFault e) {
-			LOGGER.info("STOP NOTICATION : ", e);
+			SdpLogger.LOGGER.info("e", e);
 		} catch (RemoteException e) {
-			LOGGER.info("STOP NOTICATION : ", e);
+			SdpLogger.LOGGER.info("e", e);
 		} catch (SQLException e) {
-			LOGGER.info("STOP NOTICATION : ", e);
+			SdpLogger.LOGGER.info("e", e);
 		} catch (org.csapi.www.wsdl.parlayx.sms.notification_manager.v2_3.service.PolicyException e) {
-			LOGGER.info("PolicyException : ", e);
+			SdpLogger.LOGGER.info("e", e);
 		} catch (org.csapi.www.wsdl.parlayx.sms.notification_manager.v2_3.service.ServiceException e) {
-			LOGGER.info("ServiceException : ", e);
+			SdpLogger.LOGGER.info("e", e);
 		}
 	}
 
