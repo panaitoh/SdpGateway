@@ -1,0 +1,21 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+	xmlns:loc="http://www.csapi.org/schema/parlayx/data/sync/v1_0/local">
+	<soapenv:Header />
+	<soapenv:Body>
+		<loc:syncOrderRelation>
+			<loc:userID>
+				<ID>254726387742</ID>
+				<type>0</type>
+			</loc:userID>
+			<loc:spID>601399</loc:spID>
+			<loc:productID>MDSP2000052892</loc:productID>
+			<loc:serviceID>6013992000001442</loc:serviceID>
+			<loc:serviceList>601399200000144</loc:serviceList>
+			<loc:updateType>1</loc:updateType>
+			<loc:updateTime>20120621232135</loc:updateTime>
+			<loc:updateDesc>Addition</loc:updateDesc>
+			<loc:effectiveTime>20120622001311</loc:effectiveTime>
+			<loc:expiryTime>20120822001311</loc:expiryTime>
+		</loc:syncOrderRelation>
+	</soapenv:Body>
+</soapenv:Envelope>

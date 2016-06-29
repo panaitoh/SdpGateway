@@ -1,0 +1,25 @@
+group 'com.smk.sdp.service'
+version '0.1'
+
+apply plugin: 'java'
+apply plugin: 'idea'
+
+configurations {
+    provided
+    compile.extendsFrom provided
+}
+
+sourceCompatibility = 1.7
+
+repositories {
+    mavenCentral()
+    flatDir{
+        dirs '../lib'
+    }
+}
+
+dependencies {
+    compile fileTree(dir: '../lib', include: ['*.jar'])
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+    compile 'log4j:log4j:1.2.17'
+}

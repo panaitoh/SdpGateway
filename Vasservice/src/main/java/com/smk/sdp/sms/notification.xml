@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+    <soapenv:Header>
+        <v2:RequestSOAPHeader xmlns:v2="http://www.huawei.com.cn/schema/common/v2_1">
+            <spId>AfricomSDP$*15</spId>
+            <spPassword>95ac22d282254b220130164ed133002f</spPassword>
+            <serviceId>6015722000118413</serviceId>
+            <timeStamp>20160216051927</timeStamp>
+        </v2:RequestSOAPHeader>
+    </soapenv:Header>
+    <soapenv:Body>
+        <ns2:startSmsNotification
+                xmlns:ns2="http://www.csapi.org/schema/parlayx/sms/notification_manager/v2_3/local">
+            <ns2:reference>
+                <endpoint>http://197.248.4.112:8080/supergateway/services/SmsNotificationService</endpoint>
+                <interfaceName>notifySmsReception</interfaceName>
+                <correlator>6913056</correlator>
+            </ns2:reference>
+            <ns2:smsServiceActivationNumber>40060</ns2:smsServiceActivationNumber>
+            <ns2:criteria></ns2:criteria>
+        </ns2:startSmsNotification>
+    </soapenv:Body>
+</soapenv:Envelope>

@@ -1,0 +1,11 @@
+Vasservice/build
+Vasservice/.gradle
+Vasservice/gradle
+Vasservice/.idea
+Supergateway/.gradle
+Supergateway/build
+Supergateway/.idea
+Supergateway/gradle
+.idea
+lib
+out
