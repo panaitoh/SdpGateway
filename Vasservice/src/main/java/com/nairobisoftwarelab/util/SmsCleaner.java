@@ -1,4 +1,4 @@
-package com.smk.sdp.util;
+package com.nairobisoftwarelab.util;
 
 import java.util.HashMap;
 import java.util.regex.Matcher;

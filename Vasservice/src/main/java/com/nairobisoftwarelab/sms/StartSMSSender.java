@@ -1,6 +1,6 @@
-package com.smk.sdp.sms;
+package com.nairobisoftwarelab.sms;
 
-import com.smk.sdp.util.DBConnection;
+import com.nairobisoftwarelab.util.DBConnection;
 import org.quartz.SchedulerException;
 
 import java.sql.Connection;
@@ -19,15 +19,13 @@ public class StartSMSSender {
         final DBConnection dbConnect = new DBConnection();
         final Connection connection = dbConnect.getConnection();
         final SMSSender sender = new SMSSender(connection);
-
         Runnable runnable = new Runnable() {
             public void run() {
                 sender.sendSMS();
             }
         };
 
-        ScheduledExecutorService service = Executors
-                .newSingleThreadScheduledExecutor();
-        service.scheduleAtFixedRate(runnable, 0, 10, TimeUnit.SECONDS);
+        ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+        service.scheduleAtFixedRate(runnable, 0, 5, TimeUnit.SECONDS);
     }
 }

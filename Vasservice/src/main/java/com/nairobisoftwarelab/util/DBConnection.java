@@ -1,9 +1,9 @@
-package com.smk.sdp.util;
+package com.nairobisoftwarelab.util;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import com.mchange.v2.c3p0.DataSources;
 import com.mchange.v2.c3p0.PooledDataSource;
-import com.smk.sdp.sms.LogManager;
+import com.nairobisoftwarelab.sms.LogManager;
 import org.apache.log4j.Logger;
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -53,7 +53,7 @@ public class DBConnection extends DatabaseProperties {
         }
     }
     public Connection getConnection() {
-        closeConnection();
+        // closeConnection();
         Connection connection = null;
         try {
             connection = getDataSource().getConnection();

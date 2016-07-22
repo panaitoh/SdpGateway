@@ -1,6 +1,6 @@
-package com.smk.sdp.sms;
+package com.nairobisoftwarelab.sms;
 
-import com.smk.sdp.util.DBConnection;
+import com.nairobisoftwarelab.util.DBConnection;
 import org.quartz.SchedulerException;
 
 import java.sql.Connection;

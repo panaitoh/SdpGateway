@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8'?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+    <soapenv:Header>
+        <v2:RequestSOAPHeader xmlns:v2="http://www.huawei.com.cn/schema/common/v2_1">
+            <spId>601218</spId>
+            <spPassword>fb4d7fdda6cdabc8e0920b4f072213d7</spPassword>
+            <serviceId>6012182000003549</serviceId>
+            <timeStamp>20160820173607</timeStamp>
+        </v2:RequestSOAPHeader>
+    </soapenv:Header>
+    <soapenv:Body>
+        <ns2:startSmsNotification xmlns:ns2="http://www.csapi.org/schema/parlayx/sms/notification_manager/v2_3/local">
+            <ns2:reference>
+                <endpoint>http://api.yantech.co.ke:8080/supergateway/services/SmsNotificationService</endpoint>
+                <interfaceName>notifySmsReception</interfaceName>
+                <correlator>1</correlator>
+            </ns2:reference>
+            <ns2:smsServiceActivationNumber>762</ns2:smsServiceActivationNumber>
+        </ns2:startSmsNotification>
+    </soapenv:Body>
+</soapenv:Envelope>

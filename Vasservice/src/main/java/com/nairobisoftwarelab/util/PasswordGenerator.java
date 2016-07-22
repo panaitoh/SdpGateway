@@ -1,15 +1,12 @@
-package com.smk.sdp.util;
+package com.nairobisoftwarelab.util;
 
-import com.smk.sdp.sms.LogManager;
+import com.nairobisoftwarelab.sms.LogManager;
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 
 public class PasswordGenerator{
 	private DatabaseManager databaseManager;
@@ -39,17 +36,23 @@ public class PasswordGenerator{
 			ResultSet rs = statement.executeQuery(sql);
 			while (rs.next()) {
 				correlator = rs.getInt(1);
-				correlator++;
-				String updateCor ="INSERT INTO correlator(correlator) VALUES("+correlator+")";
-
-				Statement st = connection.createStatement();
-				st.execute(updateCor);
-				st.close();
 			}
+
+			correlator++;
+			if(correlator ==1){
+				correlator = 1000;
+			}
+			String updateCor ="INSERT INTO correlator(correlator) VALUES("+correlator+")";
+
+			Statement st = connection.createStatement();
+			st.execute(updateCor);
+			st.close();
+
+			return correlator;
 		}catch (SQLException ex){
 			logger.debug(ex.getMessage(),ex);
 		}
-		return correlator;
+		return 0;
 	}
 
 	public String getPassword(String spid, String sppass, String time) {

@@ -1,6 +1,6 @@
-package com.smk.sdp.sms;
+package com.nairobisoftwarelab.sms;
 
-import com.smk.sdp.util.DBConnection;
+import com.nairobisoftwarelab.util.DBConnection;
 import org.apache.log4j.Logger;
 import org.quartz.SchedulerException;
 

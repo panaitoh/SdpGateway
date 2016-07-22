@@ -1,6 +1,6 @@
-package com.smk.sdp.sms;
+package com.nairobisoftwarelab.sms;
 
-import com.smk.sdp.model.Endpoint;
+import com.nairobisoftwarelab.model.Endpoint;
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;

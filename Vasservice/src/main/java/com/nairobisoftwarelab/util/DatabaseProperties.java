@@ -1,6 +1,6 @@
-package com.smk.sdp.util;
+package com.nairobisoftwarelab.util;
 
-import com.smk.sdp.sms.LogManager;
+import com.nairobisoftwarelab.sms.LogManager;
 import org.apache.log4j.Logger;
 
 import java.io.File;
@@ -27,7 +27,7 @@ public abstract class DatabaseProperties {
         logger = new LogManager(this.getClass()).getLogger();
         try {
             String path = System.getProperty("user.dir");
-            File file = new File(path + System.getProperty("file.separator") + "config.conf");
+            File file = new File(path + System.getProperty("file.separator") + "Vasservice/config.conf");
             Properties props = new Properties();
             props.load(new FileReader(file));
             setUsername(props.getProperty("database-username"));

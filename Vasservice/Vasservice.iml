@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module external.linked.project.id="Vasservice" external.linked.project.path="$MODULE_DIR$" external.root.project.path="$MODULE_DIR$" external.system.id="GRADLE" external.system.module.group="com.smk.sdp.service" external.system.module.version="0.1" type="JAVA_MODULE" version="4">
+<module external.linked.project.id="Vasservice" external.linked.project.path="$MODULE_DIR$" external.root.project.path="$MODULE_DIR$" external.system.id="GRADLE" external.system.module.group="com.nairobisoftwarelab" external.system.module.version="0.1" type="JAVA_MODULE" version="4">
   <component name="NewModuleRootManager" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/build/classes/main" />
     <output-test url="file://$MODULE_DIR$/build/classes/test" />
@@ -15,10 +15,17 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Gradle: log4j:log4j:1.2.17" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: junit:junit:4.11" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.hamcrest:hamcrest-core:1.3" level="project" />
+    <orderEntry type="library" name="Gradle: org.slf4j:slf4j-simple:1.7.21" level="project" />
+    <orderEntry type="library" name="Gradle: org.slf4j:slf4j-log4j12:1.7.21" level="project" />
+    <orderEntry type="library" name="Gradle: org.quartz-scheduler:quartz:2.2.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.slf4j:slf4j-api:1.7.21" level="project" />
+    <orderEntry type="library" name="Gradle: c3p0:c3p0:0.9.1.1" level="project" />
     <orderEntry type="module-library">
       <library name="Gradle: activation-1.1">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/activation-1.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/activation-1.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -27,7 +34,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: antlr-2.7.7">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/antlr-2.7.7.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/antlr-2.7.7.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -36,7 +43,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: apache-mime4j-core-0.7.2">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/apache-mime4j-core-0.7.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/apache-mime4j-core-0.7.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -45,7 +52,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: axiom-api-1.2.13">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/axiom-api-1.2.13.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/axiom-api-1.2.13.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -54,7 +61,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: axiom-dom-1.2.13">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/axiom-dom-1.2.13.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/axiom-dom-1.2.13.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -63,7 +70,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: axiom-impl-1.2.13">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/axiom-impl-1.2.13.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/axiom-impl-1.2.13.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -72,7 +79,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: axis2-adb-1.6.2">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/axis2-adb-1.6.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/axis2-adb-1.6.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -81,7 +88,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: axis2-adb-codegen-1.6.2">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/axis2-adb-codegen-1.6.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/axis2-adb-codegen-1.6.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -90,7 +97,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: axis2-ant-plugin-1.6.2">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/axis2-ant-plugin-1.6.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/axis2-ant-plugin-1.6.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -99,7 +106,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: axis2-clustering-1.6.2">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/axis2-clustering-1.6.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/axis2-clustering-1.6.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -108,7 +115,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: axis2-codegen-1.6.2">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/axis2-codegen-1.6.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/axis2-codegen-1.6.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -117,7 +124,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: axis2-corba-1.6.2">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/axis2-corba-1.6.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/axis2-corba-1.6.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -126,7 +133,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: axis2-fastinfoset-1.6.2">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/axis2-fastinfoset-1.6.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/axis2-fastinfoset-1.6.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -135,7 +142,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: axis2-java2wsdl-1.6.2">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/axis2-java2wsdl-1.6.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/axis2-java2wsdl-1.6.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -144,7 +151,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: axis2-jaxbri-1.6.2">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/axis2-jaxbri-1.6.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/axis2-jaxbri-1.6.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -153,7 +160,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: axis2-jaxws-1.6.2">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/axis2-jaxws-1.6.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/axis2-jaxws-1.6.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -162,7 +169,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: axis2-jibx-1.6.2">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/axis2-jibx-1.6.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/axis2-jibx-1.6.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -171,7 +178,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: axis2-json-1.6.2">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/axis2-json-1.6.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/axis2-json-1.6.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -180,7 +187,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: axis2-kernel-1.6.2">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/axis2-kernel-1.6.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/axis2-kernel-1.6.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -189,7 +196,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: axis2-metadata-1.6.2">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/axis2-metadata-1.6.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/axis2-metadata-1.6.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -198,7 +205,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: axis2-mtompolicy-1.6.2">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/axis2-mtompolicy-1.6.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/axis2-mtompolicy-1.6.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -207,7 +214,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: axis2-saaj-1.6.2">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/axis2-saaj-1.6.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/axis2-saaj-1.6.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -216,7 +223,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: axis2-soapmonitor-servlet-1.6.2">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/axis2-soapmonitor-servlet-1.6.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/axis2-soapmonitor-servlet-1.6.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -225,7 +232,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: axis2-spring-1.6.2">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/axis2-spring-1.6.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/axis2-spring-1.6.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -234,7 +241,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: axis2-transport-http-1.6.2">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/axis2-transport-http-1.6.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/axis2-transport-http-1.6.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -243,7 +250,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: axis2-transport-local-1.6.2">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/axis2-transport-local-1.6.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/axis2-transport-local-1.6.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -252,7 +259,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: axis2-xmlbeans-1.6.2">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/axis2-xmlbeans-1.6.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/axis2-xmlbeans-1.6.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -261,7 +268,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: bcel-5.1">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/bcel-5.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/bcel-5.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -270,7 +277,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: c3p0-0.9.1.1">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/c3p0-0.9.1.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/c3p0-0.9.1.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -279,7 +286,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: commons-cli-1.2">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/commons-cli-1.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/commons-cli-1.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -288,7 +295,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: commons-codec-1.3">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/commons-codec-1.3.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/commons-codec-1.3.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -297,7 +304,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: commons-fileupload-1.2">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/commons-fileupload-1.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/commons-fileupload-1.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -306,7 +313,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: commons-httpclient-3.1">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/commons-httpclient-3.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/commons-httpclient-3.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -315,7 +322,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: commons-io-1.4">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/commons-io-1.4.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/commons-io-1.4.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -324,7 +331,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: commons-logging-1.1.1">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/commons-logging-1.1.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/commons-logging-1.1.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -333,7 +340,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: geronimo-annotation_1.0_spec-1.1">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/geronimo-annotation_1.0_spec-1.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/geronimo-annotation_1.0_spec-1.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -342,7 +349,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: geronimo-jaxws_2.2_spec-1.0">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/geronimo-jaxws_2.2_spec-1.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/geronimo-jaxws_2.2_spec-1.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -351,7 +358,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: geronimo-jta_1.1_spec-1.1">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/geronimo-jta_1.1_spec-1.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/geronimo-jta_1.1_spec-1.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -360,7 +367,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: geronimo-saaj_1.3_spec-1.0.1">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/geronimo-saaj_1.3_spec-1.0.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/geronimo-saaj_1.3_spec-1.0.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -369,7 +376,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: geronimo-stax-api_1.0_spec-1.0.1">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/geronimo-stax-api_1.0_spec-1.0.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/geronimo-stax-api_1.0_spec-1.0.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -378,7 +385,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: geronimo-ws-metadata_2.0_spec-1.1.2">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/geronimo-ws-metadata_2.0_spec-1.1.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/geronimo-ws-metadata_2.0_spec-1.1.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -387,7 +394,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: httpcore-4.0">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/httpcore-4.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/httpcore-4.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -396,7 +403,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: jalopy-1.5rc3">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/jalopy-1.5rc3.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/jalopy-1.5rc3.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -405,7 +412,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: jaxb-api-2.1">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/jaxb-api-2.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/jaxb-api-2.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -414,7 +421,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: jaxb-impl-2.1.7">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/jaxb-impl-2.1.7.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/jaxb-impl-2.1.7.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -423,7 +430,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: jaxb-xjc-2.1.7">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/jaxb-xjc-2.1.7.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/jaxb-xjc-2.1.7.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -432,7 +439,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: jaxen-1.1.1">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/jaxen-1.1.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/jaxen-1.1.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -441,7 +448,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: jaxws-tools-2.1.3">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/jaxws-tools-2.1.3.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/jaxws-tools-2.1.3.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -450,7 +457,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: jettison-1.0-RC2">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/jettison-1.0-RC2.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/jettison-1.0-RC2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -459,7 +466,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: jibx-bind-1.2">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/jibx-bind-1.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/jibx-bind-1.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -468,7 +475,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: jibx-run-1.2">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/jibx-run-1.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/jibx-run-1.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -477,7 +484,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: jsr311-api-1.0">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/jsr311-api-1.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/jsr311-api-1.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -486,7 +493,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: juli-6.0.16">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/juli-6.0.16.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/juli-6.0.16.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -495,7 +502,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: log4j-1.2.16">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/log4j-1.2.16.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/log4j-1.2.16.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -504,7 +511,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: mail-1.4">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/mail-1.4.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/mail-1.4.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -513,7 +520,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: mchange-commons-java-0.2.6">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/mchange-commons-java-0.2.6.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/mchange-commons-java-0.2.6.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -522,7 +529,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: mex-1.6.2-impl">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/mex-1.6.2-impl.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/mex-1.6.2-impl.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -531,7 +538,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: mysql-connector-java-5.1.36">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/mysql-connector-java-5.1.36.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/mysql-connector-java-5.1.36.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -540,7 +547,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: neethi-3.0.2">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/neethi-3.0.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/neethi-3.0.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -549,7 +556,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: quartz-2.2.2">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/quartz-2.2.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/quartz-2.2.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -558,7 +565,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: quartz-jobs-2.2.2">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/quartz-jobs-2.2.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/quartz-jobs-2.2.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -567,7 +574,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: regexp-1.2">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/regexp-1.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/regexp-1.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -576,7 +583,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: slf4j-api-1.7.7">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/slf4j-api-1.7.7.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/slf4j-api-1.7.7.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -585,7 +592,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: slf4j-log4j12-1.7.7">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/slf4j-log4j12-1.7.7.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/slf4j-log4j12-1.7.7.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -594,7 +601,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: tribes-6.0.16">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/tribes-6.0.16.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/tribes-6.0.16.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -603,7 +610,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: woden-api-1.0M9">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/woden-api-1.0M9.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/woden-api-1.0M9.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -612,7 +619,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: woden-impl-commons-1.0M9">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/woden-impl-commons-1.0M9.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/woden-impl-commons-1.0M9.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -621,7 +628,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: woden-impl-dom-1.0M9">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/woden-impl-dom-1.0M9.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/woden-impl-dom-1.0M9.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -630,7 +637,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: wsdl4j-1.6.2">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/wsdl4j-1.6.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/wsdl4j-1.6.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -639,7 +646,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: wstx-asl-3.2.9">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/wstx-asl-3.2.9.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/wstx-asl-3.2.9.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -648,7 +655,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: xalan-2.7.0">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/xalan-2.7.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/xalan-2.7.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -657,7 +664,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: xml-resolver-1.2">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/xml-resolver-1.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/xml-resolver-1.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -666,7 +673,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: xmlbeans-2.3.0">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/xmlbeans-2.3.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/xmlbeans-2.3.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -675,13 +682,11 @@
     <orderEntry type="module-library">
       <library name="Gradle: XmlSchema-1.4.7">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../lib/XmlSchema-1.4.7.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/XmlSchema-1.4.7.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" scope="TEST" name="Gradle: junit:junit:4.11" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: org.hamcrest:hamcrest-core:1.3" level="project" />
   </component>
 </module>

@@ -1,4 +1,4 @@
-package com.smk.sdp.util;
+package com.nairobisoftwarelab.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

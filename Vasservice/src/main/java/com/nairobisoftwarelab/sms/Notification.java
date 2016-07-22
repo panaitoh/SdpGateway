@@ -1,9 +1,9 @@
-package com.smk.sdp.sms;
+package com.nairobisoftwarelab.sms;
 
-import com.smk.sdp.model.Endpoint;
-import com.smk.sdp.util.DatabaseManager;
-import com.smk.sdp.util.DateService;
-import com.smk.sdp.util.PasswordGenerator;
+import com.nairobisoftwarelab.util.DateService;
+import com.nairobisoftwarelab.model.Endpoint;
+import com.nairobisoftwarelab.util.DatabaseManager;
+import com.nairobisoftwarelab.util.PasswordGenerator;
 import org.apache.axiom.om.OMAbstractFactory;
 import org.apache.axiom.om.OMElement;
 import org.apache.axiom.soap.SOAPFactory;
@@ -127,12 +127,10 @@ public class Notification implements SdpConstants {
                 updateStatement.setInt(2, STATUS_ACTIVE);
                 updateStatement.setString(3, df.format(new Date()));
                 updateStatement.setString(4, serviceid);
-                updateStatement.addBatch();
+                updateStatement.executeUpdate();
+
                 logger.info("SERVICE : " + serviceid + "NOTIFICATION STARTED");
-
             }
-
-            updateStatement.executeBatch();
 
         } catch (AxisFault e) {
             logger.error(e.getMessage(), e);

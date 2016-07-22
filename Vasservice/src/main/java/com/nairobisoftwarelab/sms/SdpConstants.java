@@ -1,4 +1,4 @@
-package com.smk.sdp.sms;
+package com.nairobisoftwarelab.sms;
 
 public interface SdpConstants {
 

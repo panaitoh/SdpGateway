@@ -1,4 +1,4 @@
-package com.smk.sdp.model;
+package com.nairobisoftwarelab.model;
 
 /**
  * Created by Martin on 26/01/2016.
