@@ -11,8 +11,10 @@ public class LogManager {
 	private Logger LOGGER = null;
 
 	public LogManager(Object obj) {
-		File file = new File(System.getProperty("user.dir")
-				+ System.getProperty("file.separator") + "log4j.properties");
+		String separator = System.getProperty("file.separator");
+
+		File file = new File(System.getProperty("user.dir") + separator + "Vasservice" + separator
+				+ separator + "log4j.properties");
 		Properties props = new Properties();
 		try {
 			props.load(new FileInputStream(file));

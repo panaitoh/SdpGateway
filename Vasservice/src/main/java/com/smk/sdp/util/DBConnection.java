@@ -53,7 +53,7 @@ public class DBConnection extends DatabaseProperties {
         }
     }
     public Connection getConnection() {
-        closeConnection();
+        // closeConnection();
         Connection connection = null;
         try {
             connection = getDataSource().getConnection();

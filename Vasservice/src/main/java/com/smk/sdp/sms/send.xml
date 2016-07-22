@@ -2,25 +2,25 @@
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
     <soapenv:Header>
         <v2:RequestSOAPHeader xmlns:v2="http://www.huawei.com.cn/schema/common/v2_1">
-            <v2:spId>601572</v2:spId>
-            <v2:spPassword>45f61438bac2e3aa450d2b530346517e</v2:spPassword>
-            <v2:serviceId>6015722000100291</v2:serviceId>
-            <v2:timeStamp>2016-01-27 00:15:44</v2:timeStamp>
-            <v2:OA>254721565244</v2:OA>
-            <v2:FA>254721565244</v2:FA>
+            <v2:spId>601781</v2:spId>
+            <v2:spPassword>5cb7a946c83fd7e6fb986582f65b42f8</v2:spPassword>
+            <v2:serviceId>6017812000124136</v2:serviceId>
+            <v2:timeStamp>20160720154722</v2:timeStamp>
+            <v2:OA>254700000953</v2:OA>
+            <v2:FA>254700000953</v2:FA>
         </v2:RequestSOAPHeader>
     </soapenv:Header>
     <soapenv:Body>
         <ns3:sendSms xmlns:ns3="http://www.csapi.org/schema/parlayx/sms/send/v2_2/local">
-            <ns3:addresses>tel:254721565244</ns3:addresses>
-            <ns3:senderName>22253</ns3:senderName>
-            <ns3:message>You are subscribed to Inspirational Quotes. You will be charged sh 10 per message. To subscribe
-                dial *100# or *200#.
+            <ns3:addresses>tel254700000953</ns3:addresses>
+            <ns3:senderName>720201</ns3:senderName>
+            <ns3:message>To receive catholic Daily Mass readings in English SMS the word MASS to 40060. To receive daily
+                catholic readings in Kiswahili SMS word MISA to 40060
             </ns3:message>
             <ns3:receiptRequest>
                 <endpoint>http://197.248.4.112:8080/supergateway/services/SmsNotificationService</endpoint>
                 <interfaceName>notifySmsDeliveryReceipt</interfaceName>
-                <correlator>6774583</correlator>
+                <correlator>7001941</correlator>
             </ns3:receiptRequest>
         </ns3:sendSms>
     </soapenv:Body>

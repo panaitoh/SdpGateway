@@ -27,7 +27,7 @@ public abstract class DatabaseProperties {
         logger = new LogManager(this.getClass()).getLogger();
         try {
             String path = System.getProperty("user.dir");
-            File file = new File(path + System.getProperty("file.separator") + "config.conf");
+            File file = new File(path + System.getProperty("file.separator") + "Vasservice/config.conf");
             Properties props = new Properties();
             props.load(new FileReader(file));
             setUsername(props.getProperty("database-username"));
