@@ -1,45 +1,36 @@
 package com.nairobisoftwarelab.sms;
 
-import com.nairobisoftwarelab.model.Endpoint;
-import org.apache.log4j.Logger;
+import com.google.gson.reflect.TypeToken;
+import com.nairobisoftwarelab.Database.QueryRunner;
+import com.nairobisoftwarelab.model.EndpointModel;
+import com.nairobisoftwarelab.util.ILogManager;
+import com.nairobisoftwarelab.util.LogManager;
+import com.nairobisoftwarelab.util.Status;
 
+import java.lang.reflect.Type;
 import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.HashMap;
+import java.util.List;
 
 public class Endpoints {
-    private static Logger logger;
-    public static Endpoints instance = new Endpoints();
-    HashMap<String, Endpoint> endpoint;
+    public static Endpoints getInstance = new Endpoints();
+    private ILogManager logManager;
+    private List<EndpointModel> endpoint;
+    private Type type = new TypeToken<List<EndpointModel>>() {
+    }.getType();
 
     private Endpoints() {
-        logger = new LogManager(this.getClass()).getLogger();
+        logManager = new LogManager(this);
     }
 
-    public HashMap<String, Endpoint> getEndPoint(Connection connection) {
-        String sql = "SELECT id, endpointName, url, interfacename, status FROM endpoint";
+    public List<EndpointModel> getEndPoints(Connection connection) {
         if (endpoint != null) {
             return endpoint;
-        } else {
-            endpoint = new HashMap<>();
-            try {
-                Statement statement = connection.createStatement();
-                ResultSet rs = statement.executeQuery(sql);
-                while (rs.next()) {
-                    int id = rs.getInt(1);
-                    String endpointName = rs.getString(2);
-                    String url = rs.getString(3);
-                    String interfacename = rs.getString(4);
-                    int status = rs.getInt(5);
-                    endpoint.put(endpointName, new Endpoint(id, endpointName, url, interfacename, status));
-                }
-                rs.close();
-            } catch (SQLException e) {
-                logger.error(e.getMessage(), e);
-            }
-            return endpoint;
         }
+
+        String query = "SELECT id, endpointName, url, interfacename, status FROM endpoint WHERE status = " + Status.STATUS_ACTIVE.getStatus();
+        QueryRunner<EndpointModel> queryRunner = new QueryRunner<EndpointModel>(connection, query);
+        endpoint = queryRunner.getList(type);
+        return endpoint;
+
     }
 }

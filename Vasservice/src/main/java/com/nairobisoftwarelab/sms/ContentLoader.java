@@ -1,25 +1,21 @@
 package com.nairobisoftwarelab.sms;
 
-import com.nairobisoftwarelab.util.DatabaseManager;
-import org.apache.log4j.Logger;
+import com.nairobisoftwarelab.util.DBConnection;
+import com.nairobisoftwarelab.util.ILogManager;
+import com.nairobisoftwarelab.util.LogManager;
+import com.nairobisoftwarelab.util.Status;
 
 import java.sql.*;
 
-public class ContentLoader implements SdpConstants {
-    private DatabaseManager databaseManager;
-    private Logger logger;
-    private Connection connection;
-
-    public ContentLoader(Connection connection) {
-        databaseManager = new DatabaseManager();
-        logger = new LogManager(this.getClass()).getLogger();
-        this.connection = connection;
-    }
+public class ContentLoader {
+    private ILogManager logManger = new LogManager(this);
 
 
     public void getNewContent() {
-        logger.info("Checking for new content");
-        String sql = "SELECT id,productCode,message,scheduledDate FROM content WHERE status=" + SMSNOTSENT + " AND scheduledDate <=now()";
+        Connection connection = DBConnection.getConnection();
+
+        logManger.debug("Checking for new content");
+        String sql = "SELECT id,productCode,message,scheduledDate FROM content WHERE status=" + Status.STATUS_PENDING.getStatus() + " AND scheduledDate <=now()";
         try {
             PreparedStatement pstmt = connection.prepareStatement("UPDATE content SET status =? WHERE id =?");
             Statement statement = connection.createStatement();
@@ -32,9 +28,9 @@ public class ContentLoader implements SdpConstants {
                 String message = rs.getString(3);
                 String scheduledDate = rs.getString(4);
 
-                logger.info("Content for " + productCode + " scheduled for " + scheduledDate);
-                prepareToSend(productCode, message);
-                pstmt.setInt(1, SMSSENT);
+                logManger.debug("Content for " + productCode + " scheduled for " + scheduledDate);
+                prepareToSend(connection, productCode, message);
+                pstmt.setInt(1, Status.STATUS_READY.getStatus());
                 pstmt.setInt(2, id);
 
                 pstmt.addBatch();
@@ -47,11 +43,19 @@ public class ContentLoader implements SdpConstants {
             }
             pstmt.executeBatch();
         } catch (SQLException e) {
-            logger.error(e.getMessage(), e);
+            logManger.error(e.getMessage(), e);
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                logManger.error(e.getMessage(), e);
+            }
         }
     }
 
-    private void prepareToSend(String productCode, String message) {
+    private void prepareToSend(Connection connection, String productCode, String message) {
         String sql = "SELECT id,msisdn,serviceid,accountid FROM subscription_data WHERE product_code='" + productCode + "' AND update_type=1";
         try {
             PreparedStatement pstmt = connection.prepareStatement("INSERT INTO contenttosend(serviceid,accountid,msisdn,message) VALUES(?,?,?,?)");
@@ -80,19 +84,15 @@ public class ContentLoader implements SdpConstants {
 
             pstmt.executeBatch();
 
-            rs1.close();
-            statement.close();
-
-
         } catch (SQLException e) {
-            logger.error(e.getMessage(), e);
+            logManger.error(e.getMessage(), e);
         }
     }
 
     public void sendContent() {
         String smsSql = "SELECT count(*) FROM contenttosend";
         int numberOfSmses = 0;
-
+        Connection connection = DBConnection.getConnection();
         try {
             Statement smsCount = connection.createStatement();
             ResultSet rsSms = smsCount.executeQuery(smsSql);
@@ -116,7 +116,7 @@ public class ContentLoader implements SdpConstants {
                 String sql = "SELECT id,serviceid,accountid,msisdn,message FROM contenttosend LIMIT 1000;";
                 rs3 = statement2.executeQuery(sql);
 
-                System.out.println("Batch "+i);
+                System.out.println("Batch " + i);
 
                 int count = 0;
                 while (rs3.next()) {
@@ -149,9 +149,17 @@ public class ContentLoader implements SdpConstants {
                 pstmtDelete.executeBatch();
             }
 
-            System.out.println("Complete");
+            logManger.debug("Complete");
         } catch (SQLException e) {
-            logger.debug(e.getMessage(), e);
+            logManger.error(e.getMessage(), e);
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                logManger.error(e.getMessage(), e);
+            }
         }
     }
 }

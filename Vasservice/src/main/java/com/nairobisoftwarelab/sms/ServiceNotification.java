@@ -1,9 +1,8 @@
 package com.nairobisoftwarelab.sms;
 
-import com.nairobisoftwarelab.util.DateService;
-import com.nairobisoftwarelab.model.Endpoint;
-import com.nairobisoftwarelab.util.DatabaseManager;
-import com.nairobisoftwarelab.util.PasswordGenerator;
+import com.nairobisoftwarelab.model.EndpointModel;
+import com.nairobisoftwarelab.model.ServiceModel;
+import com.nairobisoftwarelab.util.*;
 import org.apache.axiom.om.OMAbstractFactory;
 import org.apache.axiom.om.OMElement;
 import org.apache.axiom.soap.SOAPFactory;
@@ -14,55 +13,56 @@ import org.apache.axis2.client.ServiceClient;
 import org.apache.axis2.databinding.types.URI;
 import org.apache.axis2.databinding.types.URI.MalformedURIException;
 import org.apache.axis2.transport.http.HTTPConstants;
-import org.apache.log4j.Logger;
 import org.csapi.www.schema.parlayx.common.v2_1.SimpleReference;
 import org.csapi.www.schema.parlayx.sms.notification_manager.v2_3.local.*;
 import org.csapi.www.wsdl.parlayx.sms.notification_manager.v2_3.service.SmsNotificationManagerServiceStub;
 
 import javax.xml.namespace.QName;
 import java.rmi.RemoteException;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
+import java.util.List;
 
-public class Notification implements SdpConstants {
+public class ServiceNotification extends DatabaseManager<ServiceModel> {
     private SmsNotificationManagerServiceStub notification_stub = null;
-    private DatabaseManager databaseManager;
-    private Logger logger;
-    private static HashMap<String, Endpoint> sdpEndpoints;
-
-    private Connection connection;
-
-    public Notification(Connection connection) {
-        logger = new LogManager(this.getClass()).getLogger();
-        databaseManager = new DatabaseManager();
-        this.connection = connection;
-        sdpEndpoints = Endpoints.instance.getEndPoint(connection);
-    }
+    private ILogManager logManager = new LogManager(this);
 
     /**
      * This method initiates start service notification by invoking sdp
      * startNotification method. This will allow an sms service to receive smses
      * and delivery reports online.
      */
+
     public void startServiceNotification() {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        logger.info("Checking new services");
+        logManager.debug("Checking new services");
+        Connection connection = DBConnection.getConnection();
+
         try {
-            String sql = "SELECT s.serviceid,s.smsServiceActivationNumber,s.criteria,a.spid,a.password FROM services s INNER JOIN account a WHERE  s.accountid=a.id AND s.status=" + STATUS_READY +" LIMIT 20";
-            Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery(sql);
+            String query = "SELECT s.id,s.serviceid,s.smsServiceActivationNumber,s.criteria,a.spid,a.password, " +
+                    "s.correlator, s.status, s.dateCreated, s.dateActivated, s.dateDeactivated FROM services s " +
+                    "INNER JOIN account a WHERE  s.accountid=a.id AND s.status=" + Status.STATUS_READY.getStatus() + " LIMIT 20";
+            List<ServiceModel> services = getAll(connection, query);
             PreparedStatement updateStatement = connection.prepareStatement("update services set correlator =?, status =?,dateActivated=? WHERE serviceid =?");
 
-            while (rs.next()) {
-                String serviceid = rs.getString(1);
-                String smsServiceActivationNumber = rs.getString(2);
-                String criteria = rs.getString(3);
-                String spid = rs.getString(4);
-                String password = rs.getString(5);
+            List<EndpointModel> endpoints = Endpoints.getInstance.getEndPoints(connection);
 
-                notification_stub = new SmsNotificationManagerServiceStub(sdpEndpoints.get("notification").getUrl().trim());
+
+            EndpointModel notificationEndpoint = endpoints.stream()
+                    .filter(item -> item.getEndpointname().equals("notification")).findFirst().get();
+
+            EndpointModel notifySmsReceptionEndpoint = endpoints.stream()
+                    .filter(item -> item.getEndpointname().equals("notifysms")).findFirst().get();
+
+            if (notificationEndpoint == null || notifySmsReceptionEndpoint == null) {
+                throw new SdpEndpointException("Sdp endpoint missing");
+            }
+
+            for (ServiceModel serv : services) {
+                notification_stub = new SmsNotificationManagerServiceStub(notificationEndpoint.getUrl());
                 ServiceClient startClient = notification_stub._getServiceClient();
                 Options options = startClient.getOptions();
                 options.setProperty(HTTPConstants.CHUNKED, Boolean.FALSE);
@@ -75,21 +75,20 @@ public class Notification implements SdpConstants {
                 startClient.setOptions(options);
 
                 String time = DateService.instance.formattedTime();
-                String pass = PasswordGenerator.instance.getPassword(spid.trim(), password.trim(), time.trim());
                 SOAPFactory factory = OMAbstractFactory.getSOAP11Factory();
                 OMElement payload = factory.createOMElement(new QName(
                         "http://www.huawei.com.cn/schema/common/v2_1",
                         "RequestSOAPHeader", "v2"), null);
                 OMElement myspid = factory.createOMElement(new QName("spId"));
-                myspid.setText(spid);
+                myspid.setText(serv.getSpid());
                 payload.addChild(myspid);
 
                 OMElement spPassword = factory.createOMElement(new QName("spPassword"), null);
-                spPassword.setText(pass);
+                spPassword.setText(new TokenGenerator(serv.getSpid(), serv.getPassword(), time).getToken());
                 payload.addChild(spPassword);
 
                 OMElement service_Id = factory.createOMElement(new QName("serviceId"), null);
-                service_Id.setText(serviceid);
+                service_Id.setText(serv.getServiceid());
                 payload.addChild(service_Id);
 
                 OMElement time_Stamp = factory.createOMElement(new QName("timeStamp"), null);
@@ -99,17 +98,21 @@ public class Notification implements SdpConstants {
                 startClient.addHeader(payload);
 
                 StartSmsNotification start = new StartSmsNotification();
-                String correlator = "" + PasswordGenerator.instance.generateCorrelator(connection);
+                String correlator = new Correlator(connection).getCorrelator();
+                if (correlator == null) {
+                    throw new CorrelatorException("Correlator missing");
+                }
+
 
                 SimpleReference simple = new SimpleReference();
-                simple.setEndpoint(new URI(sdpEndpoints.get("notifysms").getUrl().trim()));
-                simple.setInterfaceName(sdpEndpoints.get("notifysms").getInterfacename());
+                simple.setEndpoint(new URI(notificationEndpoint.getUrl().trim()));
+                simple.setInterfaceName(notificationEndpoint.getInterfacename());
                 simple.setCorrelator(correlator);
                 start.setReference(simple);
-                start.setSmsServiceActivationNumber(new URI(
-                        smsServiceActivationNumber));
-                if (criteria != null) {
-                    start.setCriteria(criteria);
+                start.setSmsServiceActivationNumber(new URI(serv.getSmsServiceActivationNumber()));
+
+                if (serv.getCriteria() != null) {
+                    start.setCriteria(serv.getCriteria());
                 }
 
                 StartSmsNotificationE startE = new StartSmsNotificationE();
@@ -120,54 +123,68 @@ public class Notification implements SdpConstants {
 
                 StartSmsNotificationResponse response = responseE
                         .getStartSmsNotificationResponse();
-                logger.info(response.toString());
-
 
                 updateStatement.setString(1, correlator);
-                updateStatement.setInt(2, STATUS_ACTIVE);
+                updateStatement.setInt(2, Status.STATUS_ACTIVE.getStatus());
                 updateStatement.setString(3, df.format(new Date()));
-                updateStatement.setString(4, serviceid);
+                updateStatement.setString(4, serv.getServiceid());
                 updateStatement.executeUpdate();
 
-                logger.info("SERVICE : " + serviceid + "NOTIFICATION STARTED");
+                logManager.debug(response.toString());
+                logManager.debug("SERVICE : " + serv.getServiceid() + "NOTIFICATION STARTED, CORRELATOR " + correlator);
             }
 
         } catch (AxisFault e) {
-            logger.error(e.getMessage(), e);
+            logManager.error(e.getMessage(), e);
         } catch (MalformedURIException e) {
-            logger.error(e.getMessage(), e);
+            logManager.error(e.getMessage(), e);
         } catch (RemoteException e) {
-            logger.error(e.getMessage(), e);
+            logManager.error(e.getMessage(), e);
         } catch (SQLException e) {
-            logger.error(e.getMessage(), e);
+            logManager.error(e.getMessage(), e);
         } catch (org.csapi.www.wsdl.parlayx.sms.notification_manager.v2_3.service.PolicyException e) {
-            logger.error(e.getMessage(), e);
+            logManager.error(e.getMessage(), e);
         } catch (org.csapi.www.wsdl.parlayx.sms.notification_manager.v2_3.service.ServiceException e) {
-            logger.error(e.getMessage(), e);
+            logManager.error(e.getMessage(), e);
+        } catch (SdpEndpointException e) {
+            logManager.error(e.getMessage(), e);
+        } catch (CorrelatorException e) {
+            logManager.error(e.getMessage(), e);
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 
-    /**
-     * This method invokes sdp stopsmsnotification there by disabling online sms
-     * reception and delivery reports.
-     */
+
     public void stopServiceNotification() {
-        logger.info("Stop service notification");
-
+        logManager.debug("Stop service notification");
+        Connection connection = DBConnection.getConnection();
         try {
-            String sql = "SELECT s.serviceid,s.correlator,a.spid,a.password FROM services s INNER JOIN account a WHERE  s.accountid=a.id AND s.status=" + STOP_PENDING;
 
-            logger.info("Checking services to stop");
-            ResultSet rs = databaseManager.RunQuery(sql, connection);
+            String query = "SELECT s.serviceid,s.correlator,a.spid,a.password FROM services s INNER JOIN account a WHERE  " +
+                    "s.accountid=a.id AND s.status=" + Status.STOP_PENDING.getStatus();
 
-            PreparedStatement updateStatetment = connection.prepareStatement("UPDATE services SET status =? ,date_deactivated=? WHERE serviceid = ?");
-            while (rs.next()) {
-                String serviceid = rs.getString(1);
-                String correlator = rs.getString(2);
-                String spid = rs.getString(3);
-                String password = rs.getString(4);
+            List<ServiceModel> services = getAll(connection, query);
+            List<EndpointModel> endpoints = Endpoints.getInstance.getEndPoints(connection);
+            EndpointModel notificationEndpoint = endpoints.stream()
+                    .filter(item -> item.getEndpointname().equals("notification")).findFirst().get();
 
-                notification_stub = new SmsNotificationManagerServiceStub(sdpEndpoints.get("notification").toString().trim());
+
+            if (notificationEndpoint == null) {
+                throw new SdpEndpointException("Sdp endpoint missing");
+            }
+            PreparedStatement updateStatetment = connection.prepareStatement("UPDATE services SET status =? ," +
+                    "date_deactivated=? WHERE serviceid = ?");
+
+            for (ServiceModel serv : services) {
+                notification_stub = new SmsNotificationManagerServiceStub(notificationEndpoint.getUrl());
 
                 ServiceClient stopClient = notification_stub._getServiceClient();
 
@@ -183,24 +200,23 @@ public class Notification implements SdpConstants {
                 stopClient.setOptions(options);
 
                 String time = DateService.instance.formattedTime();
-                String pass = PasswordGenerator.instance.getPassword(spid, password, time);
 
                 SOAPFactory factory = OMAbstractFactory.getSOAP11Factory();
                 OMElement payload = factory.createOMElement(new QName(
                         "http://www.huawei.com.cn/schema/common/v2_1",
                         "RequestSOAPHeader", "v2"), null);
                 OMElement myspid = factory.createOMElement(new QName("spId"));
-                myspid.setText(spid);
+                myspid.setText(serv.getSpid());
                 payload.addChild(myspid);
 
                 OMElement spPassword = factory.createOMElement(new QName(
                         "spPassword"), null);
-                spPassword.setText(pass);
+                spPassword.setText(new TokenGenerator(serv.getSpid(), serv.getPassword(), time).getToken());
                 payload.addChild(spPassword);
 
                 OMElement service_Id = factory.createOMElement(new QName(
                         "serviceId"), null);
-                service_Id.setText(serviceid);
+                service_Id.setText(serv.getServiceid());
                 payload.addChild(service_Id);
 
                 OMElement time_Stamp = factory.createOMElement(new QName(
@@ -211,7 +227,7 @@ public class Notification implements SdpConstants {
                 stopClient.addHeader(payload);
 
                 StopSmsNotification stop = new StopSmsNotification();
-                stop.setCorrelator(correlator);
+                stop.setCorrelator(serv.getCorrelator());
 
                 StopSmsNotificationE stopE = new StopSmsNotificationE();
                 stopE.setStopSmsNotification(stop);
@@ -219,27 +235,37 @@ public class Notification implements SdpConstants {
                 StopSmsNotificationResponseE responseE = notification_stub.stopSmsNotification(stopE);
                 StopSmsNotificationResponse response = responseE.getStopSmsNotificationResponse();
 
-                logger.info("Service : " + serviceid + " has been deactivated:");
 
-                updateStatetment.setInt(1, STATUS_STOPPED);
+                updateStatetment.setInt(1, Status.STATUS_STOPPED.getStatus());
                 updateStatetment.setString(2, DateService.instance.now());
-                updateStatetment.setString(3, serviceid);
+                updateStatetment.setString(3, serv.getServiceid());
 
-                updateStatetment.addBatch();
+                updateStatetment.executeUpdate();
+                logManager.debug("Service : " + serv.getServiceid() + " has been deactivated:");
+
             }
 
-            updateStatetment.executeBatch();
-
         } catch (AxisFault e) {
-            logger.error(e.getMessage(), e);
+            logManager.error(e.getMessage(), e);
         } catch (RemoteException e) {
-            logger.error(e.getMessage(), e);
+            logManager.error(e.getMessage(), e);
         } catch (SQLException e) {
-            logger.error(e.getMessage(), e);
+            logManager.error(e.getMessage(), e);
         } catch (org.csapi.www.wsdl.parlayx.sms.notification_manager.v2_3.service.PolicyException e) {
-            logger.error(e.getMessage(), e);
+            logManager.error(e.getMessage(), e);
         } catch (org.csapi.www.wsdl.parlayx.sms.notification_manager.v2_3.service.ServiceException e) {
-            logger.error(e.getMessage(), e);
+            logManager.error(e.getMessage(), e);
+        } catch (SdpEndpointException e) {
+            logManager.error(e.getMessage(), e);
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 }

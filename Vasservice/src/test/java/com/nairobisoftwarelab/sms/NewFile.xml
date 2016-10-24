@@ -1,6 +1,5 @@
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
-	xmlns:v2="http://www.huawei.com.cn/schema/common/v2_1"
-	xmlns:loc="http://www.csapi.org/schema/parlayx/sms/notification/v2_2/local">
+				  xmlns:loc="http://www.csapi.org/schema/parlayx/sms/notification/v2_2/local">
 	<soapenv:Header>
 		<ns1:NotifySOAPHeader xmlns:ns1="http://www.huawei.com.cn/schema/common/v2_1">
 			<ns1:spRevId>ekubai</ns1:spRevId>

@@ -17,13 +17,11 @@ public class StartNotification {
     public static void main(String[] args) {
 
         final DBConnection dbConnect = new DBConnection();
-        final Connection connection = dbConnect.getConnection();
-        final Notification notification = new Notification(connection);
-        Runnable runnable = new Runnable() {
-            public void run() {
-                notification.startServiceNotification();
-                notification.stopServiceNotification();
-            }
+        final Connection connection = DBConnection.getConnection();
+        final ServiceNotification notification = new ServiceNotification();
+        Runnable runnable = () -> {
+            notification.startServiceNotification();
+            notification.stopServiceNotification();
         };
 
         ScheduledExecutorService service = Executors

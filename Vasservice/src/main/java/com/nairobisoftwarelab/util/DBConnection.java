@@ -1,77 +1,65 @@
 package com.nairobisoftwarelab.util;
 
-import com.mchange.v2.c3p0.ComboPooledDataSource;
 import com.mchange.v2.c3p0.DataSources;
 import com.mchange.v2.c3p0.PooledDataSource;
-import com.nairobisoftwarelab.sms.LogManager;
-import org.apache.log4j.Logger;
+
 import javax.sql.DataSource;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 public class DBConnection extends DatabaseProperties {
-    private String _username;
-    private String _password;
-    private String _url;
-    private int _maxPoolSize;
-    private int _minPoolSize;
-    private int _increment;
-    private ComboPooledDataSource cpds;
-    private Connection connection;
+    private static PooledDataSource dataSource;
 
-    private Logger logger;
-
-    public DBConnection() {
-        logger = new LogManager(this.getClass()).getLogger();
-        this._username = getUsername();
-        this._password = getPassword();
-        this._url = getUrl();
-        this._minPoolSize = getMinPoolSize();
-        this._maxPoolSize = getMaxPoolSize();
-        this._increment = getIncrement();
-        cpds = new ComboPooledDataSource();
-    }
-
-    public PooledDataSource getDataSource() {
+    static {
         try {
+
+            String path = System.getProperty("user.dir");
+            File file = new File(path + System.getProperty("file.separator") + "Vasservice/config.conf");
+            Properties props = new Properties();
+            props.load(new FileReader(file));
+            String username = props.getProperty("database-username");
+            String password = props.getProperty("database-password");
+            String server = props.getProperty("database-host");
+            String database = props.getProperty("database-name");
+            String port = props.getProperty("database-port");
+
+            String increment = props.getProperty("pool-increment");
+
+            String params = "useUnicode=true&characterEncoding=UTF-8&rewriteBatchedStatements=true";
+            String url = "jdbc:mysql://" + server + ":" + port + "/" + database + "?" + params;
+
+
             Class.forName("com.mysql.jdbc.Driver");
-            DataSource unpooledDs = DataSources.unpooledDataSource(getUrl(), _username, _password);
+            DataSource unpooledDs = DataSources.unpooledDataSource(url, username, password);
 
             Map overrides = new HashMap();
             overrides.put("maxStatements", "50");
-            overrides.put("maxPoolSize", new Integer(_maxPoolSize));
-            PooledDataSource pooledDs = (PooledDataSource) DataSources.pooledDataSource(unpooledDs, overrides);
-            return pooledDs;
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            return null;
+            // overrides.put("maxPoolSize", new Integer(getMaxPoolSize()));
+            dataSource = (PooledDataSource) DataSources.pooledDataSource(unpooledDs, overrides);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
-            return null;
-        }
-    }
-    public Connection getConnection() {
-        // closeConnection();
-        Connection connection = null;
-        try {
-            connection = getDataSource().getConnection();
-            return connection;
-        }  catch (SQLException e) {
-            logger.error(e.getMessage(), e);
-            return null;
-        }
-    }
-
-
-    private void closeConnection() {
-        try {
-            if (getDataSource() != null) {
-                DataSources.destroy(getDataSource());
-            }
         } catch (SQLException e) {
-            logger.error(e.getMessage(), e);
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+    }
+
+    public static Connection getConnection() {
+        try {
+            return dataSource.getConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

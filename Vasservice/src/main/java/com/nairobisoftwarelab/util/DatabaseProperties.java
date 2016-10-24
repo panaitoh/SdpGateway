@@ -1,8 +1,5 @@
 package com.nairobisoftwarelab.util;
 
-import com.nairobisoftwarelab.sms.LogManager;
-import org.apache.log4j.Logger;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -21,10 +18,9 @@ public abstract class DatabaseProperties {
     private int minPoolSize;
     private int increment;
 
-    private Logger logger;
+    private ILogManager logManager = new LogManager(this);
 
     public DatabaseProperties() {
-        logger = new LogManager(this.getClass()).getLogger();
         try {
             String path = System.getProperty("user.dir");
             File file = new File(path + System.getProperty("file.separator") + "Vasservice/config.conf");
@@ -61,9 +57,9 @@ public abstract class DatabaseProperties {
             String url = "jdbc:mysql://" + server + ":" + port + "/" + database + "?" + params;
             setUrl(url);
         } catch (FileNotFoundException e) {
-            logger.error(e.getMessage(),  e);
+            logManager.error(e.getMessage(), e);
         } catch (IOException e) {
-            logger.error(e.getMessage(),  e);
+            logManager.error(e.getMessage(), e);
         }
     }
 

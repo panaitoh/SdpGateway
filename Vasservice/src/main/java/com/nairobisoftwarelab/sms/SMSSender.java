@@ -1,9 +1,8 @@
 package com.nairobisoftwarelab.sms;
 
-import com.nairobisoftwarelab.model.Endpoint;
-import com.nairobisoftwarelab.util.DBConnection;
-import com.nairobisoftwarelab.util.DateService;
-import com.nairobisoftwarelab.util.PasswordGenerator;
+import com.nairobisoftwarelab.model.EndpointModel;
+import com.nairobisoftwarelab.model.OutboxModel;
+import com.nairobisoftwarelab.util.*;
 import org.apache.axiom.om.OMAbstractFactory;
 import org.apache.axiom.om.OMElement;
 import org.apache.axiom.om.OMNamespace;
@@ -15,7 +14,6 @@ import org.apache.axis2.client.ServiceClient;
 import org.apache.axis2.databinding.types.URI;
 import org.apache.axis2.databinding.types.URI.MalformedURIException;
 import org.apache.axis2.transport.http.HTTPConstants;
-import org.apache.log4j.Logger;
 import org.csapi.www.schema.parlayx.common.v2_1.SimpleReference;
 import org.csapi.www.schema.parlayx.sms.send.v2_2.local.SendSms;
 import org.csapi.www.schema.parlayx.sms.send.v2_2.local.SendSmsE;
@@ -24,9 +22,12 @@ import org.csapi.www.schema.parlayx.sms.send.v2_2.local.SendSmsResponseE;
 import org.csapi.www.wsdl.parlayx.sms.send.v2_2.service.PolicyException;
 import org.csapi.www.wsdl.parlayx.sms.send.v2_2.service.SendSmsServiceStub;
 import org.csapi.www.wsdl.parlayx.sms.send.v2_2.service.ServiceException;
+
 import java.rmi.RemoteException;
-import java.sql.*;
-import java.util.Map;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.List;
 
 /**
  * @author Martin lugaliki
@@ -34,25 +35,35 @@ import java.util.Map;
  *         Software developer</br>Vas masters
  *         </p>StartContentLoader
  */
-public class SMSSender implements SdpConstants {
-    private Logger logger;
-    private static Map<String, Endpoint> sdpEndpoints;
-    DBConnection dbConnect;
-    private Connection connection;
+public class SMSSender extends DatabaseManager<OutboxModel> {
+    private ILogManager logger = new LogManager(this);
     private SendSmsServiceStub sendSmsStub = null;
     private ServiceClient sendSmsClient;
-    private String sdpUrl;
 
-    public SMSSender(Connection connection) {
-        logger = new LogManager(this.getClass()).getLogger();
-        dbConnect = new DBConnection();
-        this.connection = connection;
-        sdpEndpoints = Endpoints.instance.getEndPoint(connection);
-
-        sdpUrl = sdpEndpoints.get("sdp").getUrl().trim();
-
+    /**
+     * This method sends an sms to sdp
+     */
+    public void sendSMS() {
+        logger.info("SendSms : Getting new smses");
+        SendSms sendsms = new SendSms();
+        Connection connection = DBConnection.getConnection();
         try {
-            sendSmsStub = new SendSmsServiceStub(sdpUrl);
+            String sql = "SELECT o.id,o.message,o.senderAddress,o.linkid, s.serviceid,s.smsServiceActivationNumber," +
+                    "a.spid,a.password FROM outbox o INNER JOIN account a INNER JOIN services s WHERE o.accountid=a.id " +
+                    "AND o.serviceid=s.id and o.status=" + Status.STATUS_PENDING.getStatus() + " LIMIT 20";
+            List<OutboxModel> outboxMessages = getAll(connection, sql);
+
+            List<EndpointModel> endpoints = Endpoints.getInstance.getEndPoints(connection);
+            EndpointModel deliveryEndpoint = endpoints.stream()
+                    .filter(item -> item.getEndpointname().equals("deliverysms")).findFirst().get();
+
+            EndpointModel sdpEndpoint = endpoints.stream()
+                    .filter(item -> item.getEndpointname().equals("sdp")).findFirst().get();
+            if (deliveryEndpoint == null || sdpEndpoint == null) {
+                throw new SdpEndpointException("Sdp endpoint missing");
+            }
+
+            sendSmsStub = new SendSmsServiceStub(sdpEndpoint.getUrl());
             sendSmsClient = sendSmsStub._getServiceClient();
             Options options = sendSmsClient.getOptions();
             options.setProperty(HTTPConstants.CHUNKED, Boolean.FALSE);
@@ -63,49 +74,13 @@ public class SMSSender implements SdpConstants {
                     Constants.Configuration.DISABLE_SOAP_ACTION,
                     Boolean.TRUE);
             sendSmsClient.setOptions(options);
-        } catch (AxisFault e) {
-            logger.error(e.getMessage(), e);
-        }
-    }
 
-
-    /**
-     * This method sends an sms to sdp
-     */
-    public void sendSMS() {
-        logger.info("SendSms : Getting new smses");
-        SendSms sendsms = new SendSms();
-        try {
-            String sql = "SELECT o.id,o.message,o.senderAddress,o.linkid, s.serviceid,s.smsServiceActivationNumber," +
-                    "a.spid,a.password FROM outbox o INNER JOIN account a INNER JOIN services s WHERE o.accountid=a.id " +
-                    "AND o.serviceid=s.id and o.status=" + SMSNOTSENT + " LIMIT 20";
-            Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery(sql);
-
-            //ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(4);
             PreparedStatement updateStatement = connection.prepareStatement("UPDATE outbox SET requestIdentifier=?,  status = ? where id =?");
 
-            while (rs.next()) {
+            for (OutboxModel outbox : outboxMessages) {
                 String time = DateService.instance.formattedTime();
-                int id = rs.getInt(1);
-                String message = rs.getString(2);
-                String senderAddress = rs.getString(3);
-                String linkid = rs.getString(4);
-                String serviceid = rs.getString(5);
-                String smsServiceActivationNumber = rs.getString(6);
-                String spid = rs.getString(7);
-                String password = rs.getString(8);
-                String pass = PasswordGenerator.instance.getPassword(spid, password, time);
-                String correlator = "" + PasswordGenerator.instance.generateCorrelator(connection);
-
-                updateStatement.setString(1, null);
-                updateStatement.setInt(2, 3);
-                updateStatement.setInt(3, id);
-                updateStatement.execute();
-
-              /* SmsObject task = new SmsObject(id, message, senderAddress, linkid, serviceid, smsServiceActivationNumber, spid, time, pass, correlator, sdpEndpoints, connection);
-                executor.execute(task);*/
-
+                String pass = new TokenGenerator(outbox.getSpid(), outbox.getPassword(), time).getToken();
+                String correlator = "" + new Correlator(connection).getCorrelator();
 
                 SOAPFactory factory = OMAbstractFactory.getSOAP11Factory();
                 OMNamespace namespace = factory.createOMNamespace(
@@ -113,7 +88,7 @@ public class SMSSender implements SdpConstants {
                 OMElement payload = factory.createOMElement(
                         "RequestSOAPHeader", namespace);
                 OMElement myspid = factory.createOMElement("spId", namespace);
-                myspid.setText(spid);
+                myspid.setText(outbox.getSpid());
                 payload.addChild(myspid);
 
                 OMElement spPassword = factory.createOMElement("spPassword",
@@ -123,38 +98,38 @@ public class SMSSender implements SdpConstants {
 
                 OMElement service_Id = factory.createOMElement("serviceId",
                         namespace);
-                service_Id.setText(serviceid);
+                service_Id.setText(outbox.getServiceid());
                 payload.addChild(service_Id);
 
                 OMElement time_Stamp = factory.createOMElement("timeStamp", namespace);
                 time_Stamp.setText(time);
                 payload.addChild(time_Stamp);
-                if (linkid != null) {
+                if (outbox.getLinkid() != null) {
                     OMElement sdp_linkid = factory.createOMElement("linkid",
                             namespace);
-                    sdp_linkid.setText(linkid);
+                    sdp_linkid.setText(outbox.getLinkid());
                     payload.addChild(sdp_linkid);
                 }
 
                 OMElement sdp_oa = factory.createOMElement("OA", namespace);
-                sdp_oa.setText(senderAddress);
+                sdp_oa.setText(outbox.getSenderAddress());
                 payload.addChild(sdp_oa);
 
                 OMElement sdp_fa = factory.createOMElement("FA", namespace);
-                sdp_fa.setText(senderAddress);
+                sdp_fa.setText(outbox.getSenderAddress());
                 payload.addChild(sdp_fa);
 
                 sendSmsClient.addHeader(payload);
 
-                URI sender[] = {new URI("tel:" + senderAddress)};
+                URI sender[] = {new URI("tel:" + outbox.getSenderAddress())};
 
                 sendsms.setAddresses(sender);
-                sendsms.setSenderName(smsServiceActivationNumber);
-                sendsms.setMessage(message.trim());
+                sendsms.setSenderName(outbox.getSmsServiceActivationNumber());
+                sendsms.setMessage(outbox.getMessage());
 
                 SimpleReference ref = new SimpleReference();
-                ref.setEndpoint(new URI(sdpEndpoints.get("deliverysms").getUrl().trim()));
-                ref.setInterfaceName(sdpEndpoints.get("deliverysms").getInterfacename().trim());
+                ref.setEndpoint(new URI(deliveryEndpoint.getUrl()));
+                ref.setInterfaceName(deliveryEndpoint.getInterfacename());
                 ref.setCorrelator(correlator);
 
                 sendsms.setReceiptRequest(ref);
@@ -165,18 +140,16 @@ public class SMSSender implements SdpConstants {
                 SendSmsResponseE responseE = sendSmsStub.sendSms(sendSmsE);
                 SendSmsResponse response = responseE.getSendSmsResponse();
 
-                logger.info("SMS SENT TO : " + senderAddress + " from Short code " + smsServiceActivationNumber + " at : " + DateService.instance.now());
+                logger.debug("SMS SENT TO : " + outbox.getSenderAddress() + " from Short code " +
+                        outbox.getSmsServiceActivationNumber() + " at : " + DateService.instance.now());
                 String result = response.getResult();
 
                 updateStatement.setString(1, result);
-                updateStatement.setInt(2, SMSSENT);
-                updateStatement.setInt(3, id);
-                updateStatement.execute();
-                //updateStatement.addBatch();
+                updateStatement.setInt(2, Status.STATUS_READY.getStatus());
+                updateStatement.setInt(3, outbox.getId());
+                updateStatement.executeUpdate();
             }
-           // executor.shutdown();
 
-            //updateStatement.executeBatch();
 
         } catch (MalformedURIException e) {
             logger.error(e.getMessage(), e);
@@ -190,6 +163,19 @@ public class SMSSender implements SdpConstants {
             logger.error(e.getMessage(), e);
         } catch (SQLException e) {
             logger.error(e.getMessage(), e);
+        } catch (SdpEndpointException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 }

@@ -1,9 +1,7 @@
 package com.nairobisoftwarelab.sms;
 
-import com.nairobisoftwarelab.util.DBConnection;
 import org.quartz.SchedulerException;
 
-import java.sql.Connection;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -16,9 +14,7 @@ public class StartSMSSender {
 
     public static void main(String[] args) {
 
-        final DBConnection dbConnect = new DBConnection();
-        final Connection connection = dbConnect.getConnection();
-        final SMSSender sender = new SMSSender(connection);
+        final SMSSender sender = new SMSSender();
         Runnable runnable = new Runnable() {
             public void run() {
                 sender.sendSMS();
