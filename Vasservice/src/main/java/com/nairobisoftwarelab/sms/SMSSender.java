@@ -22,6 +22,10 @@ import org.csapi.www.schema.parlayx.sms.send.v2_2.local.SendSmsResponseE;
 import org.csapi.www.wsdl.parlayx.sms.send.v2_2.service.PolicyException;
 import org.csapi.www.wsdl.parlayx.sms.send.v2_2.service.SendSmsServiceStub;
 import org.csapi.www.wsdl.parlayx.sms.send.v2_2.service.ServiceException;
+import org.quartz.DisallowConcurrentExecution;
+import org.quartz.Job;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
 
 import java.rmi.RemoteException;
 import java.sql.Connection;
@@ -35,7 +39,8 @@ import java.util.List;
  *         Software developer</br>Vas masters
  *         </p>StartContentLoader
  */
-public class SMSSender extends DatabaseManager<OutboxModel> {
+@DisallowConcurrentExecution
+public class SMSSender extends DatabaseManager<OutboxModel> implements Job {
     private ILogManager logger = new LogManager(this);
     private SendSmsServiceStub sendSmsStub = null;
     private ServiceClient sendSmsClient;
@@ -177,5 +182,11 @@ public class SMSSender extends DatabaseManager<OutboxModel> {
             }
 
         }
+    }
+
+    @Override
+    public void execute(JobExecutionContext context) throws JobExecutionException {
+        System.out.println("Hehehe Startrtrtr ");
+        sendSMS();
     }
 }

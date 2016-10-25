@@ -1,28 +1,37 @@
 package com.nairobisoftwarelab.sms;
 
-import org.quartz.SchedulerException;
+import org.quartz.*;
+import org.quartz.impl.StdSchedulerFactory;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import static org.quartz.CronScheduleBuilder.cronSchedule;
+import static org.quartz.JobBuilder.newJob;
+import static org.quartz.TriggerBuilder.newTrigger;
 
 public class StartContentLoader {
-
     /**
      * @param args
      * @throws SchedulerException
      */
     public static void main(String[] args) {
+        SchedulerFactory sf = new StdSchedulerFactory();
+        final Scheduler sched;
+        try {
+            sched = sf.getScheduler();
+            sched.start();
 
-        final ContentLoader cl = new ContentLoader();
+            JobDetail job = newJob(ContentLoader.class)
+                    .withIdentity("SmsContentJob", "SMSCONTENTGROUP")
+                    .build();
 
-        Runnable runnable = () -> {
-            cl.getNewContent();
-            cl.sendContent();
-        };
+            CronTrigger trigger = newTrigger()
+                    .withIdentity("SmsContentTrigger", "SMSCONTENTGROUP")
+                    .withSchedule(cronSchedule("0 0/15 6-23 * * ?"))
+                    .forJob("SmsContentJob", "SMSCONTENTGROUP")
+                    .build();
 
-        ScheduledExecutorService service = Executors
-                .newSingleThreadScheduledExecutor();
-        service.scheduleAtFixedRate(runnable, 0, 1, TimeUnit.HOURS);
+            sched.scheduleJob(job, trigger);
+        } catch (SchedulerException e) {
+            e.printStackTrace();
+        }
     }
 }

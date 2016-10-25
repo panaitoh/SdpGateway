@@ -4,10 +4,15 @@ import com.nairobisoftwarelab.util.DBConnection;
 import com.nairobisoftwarelab.util.ILogManager;
 import com.nairobisoftwarelab.util.LogManager;
 import com.nairobisoftwarelab.util.Status;
+import org.quartz.DisallowConcurrentExecution;
+import org.quartz.Job;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
 
 import java.sql.*;
 
-public class ContentLoader {
+@DisallowConcurrentExecution
+public class ContentLoader implements Job {
     private ILogManager logManger = new LogManager(this);
 
 
@@ -161,5 +166,11 @@ public class ContentLoader {
                 logManger.error(e.getMessage(), e);
             }
         }
+    }
+
+    @Override
+    public void execute(JobExecutionContext context) throws JobExecutionException {
+        getNewContent();
+        sendContent();
     }
 }

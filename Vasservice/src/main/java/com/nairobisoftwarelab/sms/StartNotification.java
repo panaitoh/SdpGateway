@@ -1,12 +1,11 @@
 package com.nairobisoftwarelab.sms;
 
-import com.nairobisoftwarelab.util.DBConnection;
-import org.quartz.SchedulerException;
+import org.quartz.*;
+import org.quartz.impl.StdSchedulerFactory;
 
-import java.sql.Connection;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import static org.quartz.CronScheduleBuilder.cronSchedule;
+import static org.quartz.JobBuilder.newJob;
+import static org.quartz.TriggerBuilder.newTrigger;
 
 public class StartNotification {
 
@@ -15,17 +14,25 @@ public class StartNotification {
      * @throws SchedulerException
      */
     public static void main(String[] args) {
+        SchedulerFactory sf = new StdSchedulerFactory();
+        final Scheduler sched;
+        try {
+            sched = sf.getScheduler();
+            sched.start();
 
-        final DBConnection dbConnect = new DBConnection();
-        final Connection connection = DBConnection.getConnection();
-        final ServiceNotification notification = new ServiceNotification();
-        Runnable runnable = () -> {
-            notification.startServiceNotification();
-            notification.stopServiceNotification();
-        };
+            JobDetail job = newJob(ServiceNotification.class)
+                    .withIdentity("SmsServiceJob", "SMSSERVICEGROUP")
+                    .build();
 
-        ScheduledExecutorService service = Executors
-                .newSingleThreadScheduledExecutor();
-        service.scheduleAtFixedRate(runnable, 0, 1, TimeUnit.HOURS);
+            CronTrigger trigger = newTrigger()
+                    .withIdentity("SmsServiceTrigger", "SMSSERVICEGROUP")
+                    .withSchedule(cronSchedule("0 0/15 8-18 * * ?"))
+                    .forJob("SmsServiceJob", "SMSSERVICEGROUP")
+                    .build();
+
+            sched.scheduleJob(job, trigger);
+        } catch (SchedulerException e) {
+            e.printStackTrace();
+        }
     }
 }

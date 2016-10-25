@@ -1,10 +1,11 @@
 package com.nairobisoftwarelab.sms;
 
-import org.quartz.SchedulerException;
+import org.quartz.*;
+import org.quartz.impl.StdSchedulerFactory;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import static org.quartz.JobBuilder.newJob;
+import static org.quartz.SimpleScheduleBuilder.simpleSchedule;
+import static org.quartz.TriggerBuilder.newTrigger;
 
 public class StartSMSSender {
     /**
@@ -14,14 +15,26 @@ public class StartSMSSender {
 
     public static void main(String[] args) {
 
-        final SMSSender sender = new SMSSender();
-        Runnable runnable = new Runnable() {
-            public void run() {
-                sender.sendSMS();
-            }
-        };
+        SchedulerFactory sf = new StdSchedulerFactory();
+        final Scheduler sched;
+        try {
+            sched = sf.getScheduler();
+            sched.start();
 
-        ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
-        service.scheduleAtFixedRate(runnable, 0, 5, TimeUnit.SECONDS);
+            JobDetail job = newJob(SMSSender.class)
+                    .withIdentity("myJob", "group1")
+                    .build();
+
+            Trigger trigger = newTrigger()
+                    .withIdentity("myTrigger", "group1")
+                    .startNow()
+                    .withSchedule(simpleSchedule()
+                            .withIntervalInSeconds(5)
+                            .repeatForever())
+                    .build();
+            sched.scheduleJob(job, trigger);
+        } catch (SchedulerException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -16,6 +16,10 @@ import org.apache.axis2.transport.http.HTTPConstants;
 import org.csapi.www.schema.parlayx.common.v2_1.SimpleReference;
 import org.csapi.www.schema.parlayx.sms.notification_manager.v2_3.local.*;
 import org.csapi.www.wsdl.parlayx.sms.notification_manager.v2_3.service.SmsNotificationManagerServiceStub;
+import org.quartz.DisallowConcurrentExecution;
+import org.quartz.Job;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
 
 import javax.xml.namespace.QName;
 import java.rmi.RemoteException;
@@ -26,7 +30,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class ServiceNotification extends DatabaseManager<ServiceModel> {
+@DisallowConcurrentExecution
+public class ServiceNotification extends DatabaseManager<ServiceModel> implements Job {
     private SmsNotificationManagerServiceStub notification_stub = null;
     private ILogManager logManager = new LogManager(this);
 
@@ -267,5 +272,11 @@ public class ServiceNotification extends DatabaseManager<ServiceModel> {
             }
 
         }
+    }
+
+    @Override
+    public void execute(JobExecutionContext context) throws JobExecutionException {
+        startServiceNotification();
+        stopServiceNotification();
     }
 }
