@@ -83,7 +83,7 @@ public class SMSSender extends DatabaseManager<OutboxModel> implements Job {
             PreparedStatement updateStatement = connection.prepareStatement("UPDATE outbox SET requestIdentifier=?,  status = ? where id =?");
 
             for (OutboxModel outbox : outboxMessages) {
-                String time = DateService.instance.formattedTime();
+                String time = new DateService().formattedTime();
                 String pass = new TokenGenerator(outbox.getSpid(), outbox.getPassword(), time).getToken();
                 String correlator = "" + new Correlator(connection).getCorrelator();
 
@@ -146,7 +146,7 @@ public class SMSSender extends DatabaseManager<OutboxModel> implements Job {
                 SendSmsResponse response = responseE.getSendSmsResponse();
 
                 logger.debug("SMS SENT TO : " + outbox.getSenderAddress() + " from Short code " +
-                        outbox.getSmsServiceActivationNumber() + " at : " + DateService.instance.now());
+                        outbox.getSmsServiceActivationNumber() + " at : " + new DateService().now());
                 String result = response.getResult();
 
                 updateStatement.setString(1, result);
@@ -186,7 +186,6 @@ public class SMSSender extends DatabaseManager<OutboxModel> implements Job {
 
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
-        System.out.println("Hehehe Startrtrtr ");
         sendSMS();
     }
 }

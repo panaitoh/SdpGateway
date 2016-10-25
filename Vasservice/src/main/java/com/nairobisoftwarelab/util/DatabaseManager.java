@@ -18,7 +18,7 @@ public class DatabaseManager<T> {
     }.getType();
 
     protected List<T> getAll(Connection connection, String query) {
-        QueryRunner<T> runner = new QueryRunner<>(connection, query);
+        QueryRunner<T> runner = new QueryRunner<T>(connection, query);
         return runner.getList(type);
     }
 

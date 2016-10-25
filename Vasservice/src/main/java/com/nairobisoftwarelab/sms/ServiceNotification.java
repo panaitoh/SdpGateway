@@ -1,5 +1,7 @@
 package com.nairobisoftwarelab.sms;
 
+import com.google.gson.reflect.TypeToken;
+import com.nairobisoftwarelab.Database.QueryRunner;
 import com.nairobisoftwarelab.model.EndpointModel;
 import com.nairobisoftwarelab.model.ServiceModel;
 import com.nairobisoftwarelab.util.*;
@@ -22,6 +24,7 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
 import javax.xml.namespace.QName;
+import java.lang.reflect.Type;
 import java.rmi.RemoteException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -34,6 +37,8 @@ import java.util.List;
 public class ServiceNotification extends DatabaseManager<ServiceModel> implements Job {
     private SmsNotificationManagerServiceStub notification_stub = null;
     private ILogManager logManager = new LogManager(this);
+    private Type type = new TypeToken<List<ServiceModel>>() {
+    }.getType();
 
     /**
      * This method initiates start service notification by invoking sdp
@@ -50,7 +55,7 @@ public class ServiceNotification extends DatabaseManager<ServiceModel> implement
             String query = "SELECT s.id,s.serviceid,s.smsServiceActivationNumber,s.criteria,a.spid,a.password, " +
                     "s.correlator, s.status, s.dateCreated, s.dateActivated, s.dateDeactivated FROM services s " +
                     "INNER JOIN account a WHERE  s.accountid=a.id AND s.status=" + Status.STATUS_READY.getStatus() + " LIMIT 20";
-            List<ServiceModel> services = getAll(connection, query);
+            List<ServiceModel> services = new QueryRunner<ServiceModel>(connection, query).getList(type);
             PreparedStatement updateStatement = connection.prepareStatement("update services set correlator =?, status =?,dateActivated=? WHERE serviceid =?");
 
             List<EndpointModel> endpoints = Endpoints.getInstance.getEndPoints(connection);
@@ -67,6 +72,7 @@ public class ServiceNotification extends DatabaseManager<ServiceModel> implement
             }
 
             for (ServiceModel serv : services) {
+                // ServiceModel serv = (ServiceModel)object;
                 notification_stub = new SmsNotificationManagerServiceStub(notificationEndpoint.getUrl());
                 ServiceClient startClient = notification_stub._getServiceClient();
                 Options options = startClient.getOptions();
@@ -79,7 +85,7 @@ public class ServiceNotification extends DatabaseManager<ServiceModel> implement
                         Boolean.TRUE);
                 startClient.setOptions(options);
 
-                String time = DateService.instance.formattedTime();
+                String time = new DateService().formattedTime();
                 SOAPFactory factory = OMAbstractFactory.getSOAP11Factory();
                 OMElement payload = factory.createOMElement(new QName(
                         "http://www.huawei.com.cn/schema/common/v2_1",
@@ -110,8 +116,8 @@ public class ServiceNotification extends DatabaseManager<ServiceModel> implement
 
 
                 SimpleReference simple = new SimpleReference();
-                simple.setEndpoint(new URI(notificationEndpoint.getUrl().trim()));
-                simple.setInterfaceName(notificationEndpoint.getInterfacename());
+                simple.setEndpoint(new URI(notifySmsReceptionEndpoint.getUrl().trim()));
+                simple.setInterfaceName(notifySmsReceptionEndpoint.getInterfacename());
                 simple.setCorrelator(correlator);
                 start.setReference(simple);
                 start.setSmsServiceActivationNumber(new URI(serv.getSmsServiceActivationNumber()));
@@ -204,7 +210,7 @@ public class ServiceNotification extends DatabaseManager<ServiceModel> implement
 
                 stopClient.setOptions(options);
 
-                String time = DateService.instance.formattedTime();
+                String time = new DateService().formattedTime();
 
                 SOAPFactory factory = OMAbstractFactory.getSOAP11Factory();
                 OMElement payload = factory.createOMElement(new QName(
@@ -242,7 +248,7 @@ public class ServiceNotification extends DatabaseManager<ServiceModel> implement
 
 
                 updateStatetment.setInt(1, Status.STATUS_STOPPED.getStatus());
-                updateStatetment.setString(2, DateService.instance.now());
+                updateStatetment.setString(2, new DateService().now());
                 updateStatetment.setString(3, serv.getServiceid());
 
                 updateStatetment.executeUpdate();

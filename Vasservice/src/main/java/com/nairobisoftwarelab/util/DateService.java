@@ -9,11 +9,6 @@ import java.util.Date;
  */
 public class DateService {
     private SimpleDateFormat df;
-    public static DateService instance = new DateService();
-
-    private DateService() {
-
-    }
 
     public String now() {
         df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -40,9 +35,9 @@ public class DateService {
         calendar2.setTime(new Date());
         calendar2.add(Calendar.HOUR_OF_DAY, +7);
 
-        Date date = calendar2.getTime();
+        //Date date = calendar2.getTime();
 
-        // Date date = new Date();
+        Date date = new Date();
         SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
         return df.format(date);
     }

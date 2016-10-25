@@ -26,7 +26,7 @@ public class StartNotification {
 
             CronTrigger trigger = newTrigger()
                     .withIdentity("SmsServiceTrigger", "SMSSERVICEGROUP")
-                    .withSchedule(cronSchedule("0 0/15 8-18 * * ?"))
+                    .withSchedule(cronSchedule("0 0/1 8-18 * * ?"))
                     .forJob("SmsServiceJob", "SMSSERVICEGROUP")
                     .build();
 
