@@ -4,6 +4,7 @@ import com.google.gson.reflect.TypeToken;
 import com.nairobisoftwarelab.Database.QueryRunner;
 import com.nairobisoftwarelab.model.EndpointModel;
 import com.nairobisoftwarelab.model.OutboxModel;
+import com.nairobisoftwarelab.sms.Exceptions.SdpEndpointException;
 import com.nairobisoftwarelab.util.*;
 import org.apache.axiom.om.OMAbstractFactory;
 import org.apache.axiom.om.OMElement;

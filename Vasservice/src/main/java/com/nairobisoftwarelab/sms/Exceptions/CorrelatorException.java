@@ -1,12 +1,12 @@
-package com.nairobisoftwarelab.sms;
+package com.nairobisoftwarelab.sms.Exceptions;
 
 /**
  * Created by pc on 10/18/2016.
  */
-public class SdpEndpointException extends Exception {
+public class CorrelatorException extends Exception {
     private String message;
 
-    public SdpEndpointException(String message) {
+    public CorrelatorException(String message) {
         this.message = message;
     }
 

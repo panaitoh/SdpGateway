@@ -27,7 +27,7 @@ public class Endpoints {
             return endpoint;
         }
 
-        String query = "SELECT id, endpoint_name, url, interface_name, status FROM vasmaster_service.endpoints WHERE status = " + Status.STATUS_ACTIVE;
+        String query = "SELECT id, endpoint_name, url, interface_name, status FROM endpoints WHERE status = '" + Status.STATUS_ACTIVE.toString()+"'";
         QueryRunner<EndpointModel> queryRunner = new QueryRunner<>(connection, query);
         endpoint = queryRunner.getList(type);
         return endpoint;

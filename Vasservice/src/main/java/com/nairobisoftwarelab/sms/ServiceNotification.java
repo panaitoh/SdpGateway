@@ -4,6 +4,8 @@ import com.google.gson.reflect.TypeToken;
 import com.nairobisoftwarelab.Database.QueryRunner;
 import com.nairobisoftwarelab.model.EndpointModel;
 import com.nairobisoftwarelab.model.ServiceModel;
+import com.nairobisoftwarelab.sms.Exceptions.CorrelatorException;
+import com.nairobisoftwarelab.sms.Exceptions.SdpEndpointException;
 import com.nairobisoftwarelab.util.*;
 import org.apache.axiom.om.OMAbstractFactory;
 import org.apache.axiom.om.OMElement;
@@ -30,7 +32,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 @DisallowConcurrentExecution
