@@ -1,5 +1,9 @@
 package com.nairobisoftwarelab.util;
 
+import java.security.DigestException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 /***
  * Generates security token for sdp access
  */
@@ -15,7 +19,8 @@ public class TokenGenerator {
 
     private String getToken(String spId, String password, String timestamp) {
         StringBuilder t = new StringBuilder();
-        t.append(spId).append(password).append(timestamp);
+        t.append(spId.trim()).append(password.trim()).append(timestamp.trim());
+        System.out.println(t.toString());
         try {
             java.security.MessageDigest md = java.security.MessageDigest
                     .getInstance("MD5");
@@ -33,6 +38,8 @@ public class TokenGenerator {
     }
 
     public String getToken() {
+        System.out.println(token);
+        // System.exit(1);
         return token;
     }
 }

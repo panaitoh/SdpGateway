@@ -72,7 +72,6 @@ public class ServiceNotification extends DatabaseManager<ServiceModel> implement
             }
 
             for (ServiceModel serv : services) {
-                // ServiceModel serv = (ServiceModel)object;
                 notification_stub = new SmsNotificationManagerServiceStub(notificationEndpoint.getUrl());
                 ServiceClient startClient = notification_stub._getServiceClient();
                 Options options = startClient.getOptions();
@@ -94,8 +93,9 @@ public class ServiceNotification extends DatabaseManager<ServiceModel> implement
                 myspid.setText(serv.getSpid());
                 payload.addChild(myspid);
 
+                String pass = new TokenGenerator(serv.getSpid(), serv.getPassword(), time).getToken();
                 OMElement spPassword = factory.createOMElement(new QName("spPassword"), null);
-                spPassword.setText(new TokenGenerator(serv.getSpid(), serv.getPassword(), time).getToken());
+                spPassword.setText("0fc9754978a5744c80035b9abc1b62b9");
                 payload.addChild(spPassword);
 
                 OMElement service_Id = factory.createOMElement(new QName("serviceId"), null);
@@ -103,7 +103,7 @@ public class ServiceNotification extends DatabaseManager<ServiceModel> implement
                 payload.addChild(service_Id);
 
                 OMElement time_Stamp = factory.createOMElement(new QName("timeStamp"), null);
-                time_Stamp.setText(time);
+                time_Stamp.setText("20161025202524");
                 payload.addChild(time_Stamp);
 
                 startClient.addHeader(payload);
@@ -182,7 +182,7 @@ public class ServiceNotification extends DatabaseManager<ServiceModel> implement
             String query = "SELECT s.serviceid,s.correlator,a.spid,a.password FROM services s INNER JOIN account a WHERE  " +
                     "s.accountid=a.id AND s.status=" + Status.STOP_PENDING.getStatus();
 
-            List<ServiceModel> services = getAll(connection, query);
+            List<ServiceModel> services = new QueryRunner<ServiceModel>(connection, query).getList(type);
             List<EndpointModel> endpoints = Endpoints.getInstance.getEndPoints(connection);
             EndpointModel notificationEndpoint = endpoints.stream()
                     .filter(item -> item.getEndpointname().equals("notification")).findFirst().get();
@@ -220,9 +220,11 @@ public class ServiceNotification extends DatabaseManager<ServiceModel> implement
                 myspid.setText(serv.getSpid());
                 payload.addChild(myspid);
 
+                String pass = new TokenGenerator(serv.getSpid(), serv.getPassword(), time).getToken();
+
                 OMElement spPassword = factory.createOMElement(new QName(
                         "spPassword"), null);
-                spPassword.setText(new TokenGenerator(serv.getSpid(), serv.getPassword(), time).getToken());
+                spPassword.setText(pass);
                 payload.addChild(spPassword);
 
                 OMElement service_Id = factory.createOMElement(new QName(
@@ -244,7 +246,7 @@ public class ServiceNotification extends DatabaseManager<ServiceModel> implement
                 stopE.setStopSmsNotification(stop);
 
                 StopSmsNotificationResponseE responseE = notification_stub.stopSmsNotification(stopE);
-                StopSmsNotificationResponse response = responseE.getStopSmsNotificationResponse();
+                responseE.getStopSmsNotificationResponse();
 
 
                 updateStatetment.setInt(1, Status.STATUS_STOPPED.getStatus());

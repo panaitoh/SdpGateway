@@ -1,5 +1,7 @@
 package com.nairobisoftwarelab.sms;
 
+import com.google.gson.reflect.TypeToken;
+import com.nairobisoftwarelab.Database.QueryRunner;
 import com.nairobisoftwarelab.model.EndpointModel;
 import com.nairobisoftwarelab.model.OutboxModel;
 import com.nairobisoftwarelab.util.*;
@@ -27,6 +29,7 @@ import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
+import java.lang.reflect.Type;
 import java.rmi.RemoteException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -44,6 +47,8 @@ public class SMSSender extends DatabaseManager<OutboxModel> implements Job {
     private ILogManager logger = new LogManager(this);
     private SendSmsServiceStub sendSmsStub = null;
     private ServiceClient sendSmsClient;
+    private Type type = new TypeToken<List<OutboxModel>>() {
+    }.getType();
 
     /**
      * This method sends an sms to sdp
@@ -56,7 +61,7 @@ public class SMSSender extends DatabaseManager<OutboxModel> implements Job {
             String sql = "SELECT o.id,o.message,o.senderAddress,o.linkid, s.serviceid,s.smsServiceActivationNumber," +
                     "a.spid,a.password FROM outbox o INNER JOIN account a INNER JOIN services s WHERE o.accountid=a.id " +
                     "AND o.serviceid=s.id and o.status=" + Status.STATUS_PENDING.getStatus() + " LIMIT 20";
-            List<OutboxModel> outboxMessages = getAll(connection, sql);
+            List<OutboxModel> outboxMessages = new QueryRunner<OutboxModel>(connection, sql).getList(type);
 
             List<EndpointModel> endpoints = Endpoints.getInstance.getEndPoints(connection);
             EndpointModel deliveryEndpoint = endpoints.stream()

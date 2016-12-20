@@ -16,7 +16,7 @@ public class LogManager implements ILogManager {
 
     public LogManager(Object object) {
         File file = new File(System.getProperty("user.dir")
-                + System.getProperty("file.separator") + "Vasservice/log4j.properties");
+                + System.getProperty("file.separator") + "log4j.properties");
         Properties props = new Properties();
         try {
             props.load(new FileInputStream(file));

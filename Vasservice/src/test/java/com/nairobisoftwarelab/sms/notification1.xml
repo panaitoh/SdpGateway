@@ -2,10 +2,10 @@
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
     <soapenv:Header>
         <v2:RequestSOAPHeader xmlns:v2="http://www.huawei.com.cn/schema/common/v2_1">
-            <spId>601709</spId>
-            <spPassword>c342e9d82bc9eb56ac3525a3d354d35f</spPassword>
-            <serviceId>6017092000131034</serviceId>
-            <timeStamp>20161025133202</timeStamp>
+            <spId>601572</spId>
+            <spPassword>eb81222bd81b615207cfa16f0725a2af</spPassword>
+            <serviceId>6015722000100291</serviceId>
+            <timeStamp>20161025155901</timeStamp>
         </v2:RequestSOAPHeader>
     </soapenv:Header>
     <soapenv:Body>
@@ -13,9 +13,9 @@
             <ns2:reference>
                 <endpoint>http://197.232.49.214:8080/supergateway/services/SmsNotificationService</endpoint>
                 <interfaceName>notifySmsReception</interfaceName>
-                <correlator>0001018</correlator>
+                <correlator>0001150</correlator>
             </ns2:reference>
-            <ns2:smsServiceActivationNumber>22785</ns2:smsServiceActivationNumber>
+            <ns2:smsServiceActivationNumber>22253</ns2:smsServiceActivationNumber>
         </ns2:startSmsNotification>
     </soapenv:Body>
 </soapenv:Envelope>

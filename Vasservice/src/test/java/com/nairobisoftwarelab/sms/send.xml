@@ -2,10 +2,11 @@
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
     <soapenv:Header>
         <v2:RequestSOAPHeader xmlns:v2="http://www.huawei.com.cn/schema/common/v2_1">
-            <v2:spId>601781</v2:spId>
-            <v2:spPassword>56896decc8bd2d03efac7beea75eca0a</v2:spPassword>
-            <v2:serviceId>6017812000124136</v2:serviceId>
-            <v2:timeStamp>20160723175153</v2:timeStamp>
+            <v2:spId>601709</v2:spId>
+            <v2:spPassword>0fc9754978a5744c80035b9abc1b62b9</v2:spPassword>
+            <v2:serviceId>6017092000131034</v2:serviceId>
+            <v2:timeStamp>20161026014443</v2:timeStamp>
+            <v2:linkid>25212438075903233726</v2:linkid>
             <v2:OA>254726387742</v2:OA>
             <v2:FA>254726387742</v2:FA>
         </v2:RequestSOAPHeader>
@@ -13,14 +14,12 @@
     <soapenv:Body>
         <ns3:sendSms xmlns:ns3="http://www.csapi.org/schema/parlayx/sms/send/v2_2/local">
             <ns3:addresses>tel:254726387742</ns3:addresses>
-            <ns3:senderName>720201</ns3:senderName>
-            <ns3:message>You are subscribed to Inspirational Quotes. You will be charged sh 10 per message. To subscribe
-                dial *100# or *200#.
-            </ns3:message>
+            <ns3:senderName>22785</ns3:senderName>
+            <ns3:message>Testst</ns3:message>
             <ns3:receiptRequest>
-                <endpoint>http://197.248.4.112:8080/supergateway/services/SmsNotificationService</endpoint>
+                <endpoint>http://197.234.49.214:8080/supergateway/services/SmsNotificationService</endpoint>
                 <interfaceName>notifySmsDeliveryReceipt</interfaceName>
-                <correlator>7007147</correlator>
+                <correlator>0001013</correlator>
             </ns3:receiptRequest>
         </ns3:sendSms>
     </soapenv:Body>

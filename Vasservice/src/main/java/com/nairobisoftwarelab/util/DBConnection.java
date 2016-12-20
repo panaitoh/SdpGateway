@@ -21,7 +21,7 @@ public class DBConnection extends DatabaseProperties {
         try {
 
             String path = System.getProperty("user.dir");
-            File file = new File(path + System.getProperty("file.separator") + "Vasservice/config.conf");
+            File file = new File(path + System.getProperty("file.separator") + "config.conf");
             Properties props = new Properties();
             props.load(new FileReader(file));
             String username = props.getProperty("database-username");
