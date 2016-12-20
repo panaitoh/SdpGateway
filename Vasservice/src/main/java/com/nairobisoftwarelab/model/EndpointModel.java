@@ -5,17 +5,17 @@ package com.nairobisoftwarelab.model;
  */
 public class EndpointModel {
     private int id;
-    private String endpointname;
+    private String endpoint_name;
     private String url;
-    private String interfacename;
+    private String interface_name;
     private boolean status;
 
     public String getEndpointname() {
-        return endpointname;
+        return endpoint_name;
     }
 
     public void setEndpointname(String endpointname) {
-        this.endpointname = endpointname;
+        this.endpoint_name = endpointname;
     }
 
     public String getUrl() {
@@ -27,11 +27,11 @@ public class EndpointModel {
     }
 
     public String getInterfacename() {
-        return interfacename;
+        return interface_name;
     }
 
     public void setInterfacename(String interfacename) {
-        this.interfacename = interfacename;
+        this.interface_name = interfacename;
     }
 
     public boolean isStatus() {

@@ -5,6 +5,7 @@ import org.quartz.impl.StdSchedulerFactory;
 
 import static org.quartz.CronScheduleBuilder.cronSchedule;
 import static org.quartz.JobBuilder.newJob;
+import static org.quartz.SimpleScheduleBuilder.simpleSchedule;
 import static org.quartz.TriggerBuilder.newTrigger;
 
 public class StartContentLoader {
@@ -19,7 +20,7 @@ public class StartContentLoader {
             sched = sf.getScheduler();
             sched.start();
 
-            JobDetail job = newJob(ContentLoader.class)
+            /*JobDetail job = newJob(ContentLoader.class)
                     .withIdentity("SmsContentJob", "SMSCONTENTGROUP")
                     .build();
 
@@ -27,8 +28,17 @@ public class StartContentLoader {
                     .withIdentity("SmsContentTrigger", "SMSCONTENTGROUP")
                     .withSchedule(cronSchedule("0 0/15 6-23 * * ?"))
                     .forJob("SmsContentJob", "SMSCONTENTGROUP")
+                    .build();*/
+            JobDetail job = newJob(ContentLoader.class)
+                    .withIdentity("myJob", "group1")
                     .build();
-
+            Trigger trigger = newTrigger()
+                    .withIdentity("myTrigger", "group1")
+                    .startNow()
+                    .withSchedule(simpleSchedule()
+                            .withIntervalInSeconds(5)
+                            .repeatForever())
+                    .build();
             sched.scheduleJob(job, trigger);
         } catch (SchedulerException e) {
             e.printStackTrace();

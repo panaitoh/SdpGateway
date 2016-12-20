@@ -50,6 +50,9 @@ public class SMSSender extends DatabaseManager<OutboxModel> implements Job {
     private Type type = new TypeToken<List<OutboxModel>>() {
     }.getType();
 
+    public SMSSender(){
+
+    }
     /**
      * This method sends an sms to sdp
      */
@@ -58,9 +61,7 @@ public class SMSSender extends DatabaseManager<OutboxModel> implements Job {
         SendSms sendsms = new SendSms();
         Connection connection = DBConnection.getConnection();
         try {
-            String sql = "SELECT o.id,o.message,o.senderAddress,o.linkid, s.serviceid,s.smsServiceActivationNumber," +
-                    "a.spid,a.password FROM outbox o INNER JOIN account a INNER JOIN services s WHERE o.accountid=a.id " +
-                    "AND o.serviceid=s.id and o.status=" + Status.STATUS_PENDING.getStatus() + " LIMIT 20";
+            String sql = "SELECT * FROM send_smses  LIMIT 20";
             List<OutboxModel> outboxMessages = new QueryRunner<OutboxModel>(connection, sql).getList(type);
 
             List<EndpointModel> endpoints = Endpoints.getInstance.getEndPoints(connection);
@@ -85,7 +86,7 @@ public class SMSSender extends DatabaseManager<OutboxModel> implements Job {
                     Boolean.TRUE);
             sendSmsClient.setOptions(options);
 
-            PreparedStatement updateStatement = connection.prepareStatement("UPDATE outbox SET requestIdentifier=?,  status = ? where id =?");
+            PreparedStatement updateStatement = connection.prepareStatement("UPDATE outbox SET requestIdentifier=?,  status = ?, correlator=? where id =?");
 
             for (OutboxModel outbox : outboxMessages) {
                 String time = new DateService().formattedTime();
@@ -108,33 +109,33 @@ public class SMSSender extends DatabaseManager<OutboxModel> implements Job {
 
                 OMElement service_Id = factory.createOMElement("serviceId",
                         namespace);
-                service_Id.setText(outbox.getServiceid());
+                service_Id.setText(outbox.getService_id());
                 payload.addChild(service_Id);
 
                 OMElement time_Stamp = factory.createOMElement("timeStamp", namespace);
                 time_Stamp.setText(time);
                 payload.addChild(time_Stamp);
-                if (outbox.getLinkid() != null) {
+                if (outbox.getLink_id() != null) {
                     OMElement sdp_linkid = factory.createOMElement("linkid",
                             namespace);
-                    sdp_linkid.setText(outbox.getLinkid());
+                    sdp_linkid.setText(outbox.getLink_id());
                     payload.addChild(sdp_linkid);
                 }
 
                 OMElement sdp_oa = factory.createOMElement("OA", namespace);
-                sdp_oa.setText(outbox.getSenderAddress());
+                sdp_oa.setText(outbox.getSender_address());
                 payload.addChild(sdp_oa);
 
                 OMElement sdp_fa = factory.createOMElement("FA", namespace);
-                sdp_fa.setText(outbox.getSenderAddress());
+                sdp_fa.setText(outbox.getSender_address());
                 payload.addChild(sdp_fa);
 
                 sendSmsClient.addHeader(payload);
 
-                URI sender[] = {new URI("tel:" + outbox.getSenderAddress())};
+                URI sender[] = {new URI("tel:" + outbox.getSender_address())};
 
                 sendsms.setAddresses(sender);
-                sendsms.setSenderName(outbox.getSmsServiceActivationNumber());
+                sendsms.setSenderName(outbox.getSsan());
                 sendsms.setMessage(outbox.getMessage());
 
                 SimpleReference ref = new SimpleReference();
@@ -150,13 +151,14 @@ public class SMSSender extends DatabaseManager<OutboxModel> implements Job {
                 SendSmsResponseE responseE = sendSmsStub.sendSms(sendSmsE);
                 SendSmsResponse response = responseE.getSendSmsResponse();
 
-                logger.debug("SMS SENT TO : " + outbox.getSenderAddress() + " from Short code " +
-                        outbox.getSmsServiceActivationNumber() + " at : " + new DateService().now());
+                logger.debug("SMS SENT TO : " + outbox.getSender_address() + " from Short code " +
+                        outbox.getSsan() + " at : " + new DateService().now());
                 String result = response.getResult();
 
                 updateStatement.setString(1, result);
-                updateStatement.setInt(2, Status.STATUS_READY.getStatus());
-                updateStatement.setInt(3, outbox.getId());
+                updateStatement.setString(2, Status.STATUS_PROCESSED.toString());
+                updateStatement.setString(3, correlator);
+                updateStatement.setInt(4, outbox.getId());
                 updateStatement.executeUpdate();
             }
 

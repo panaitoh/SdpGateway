@@ -52,11 +52,10 @@ public class ServiceNotification extends DatabaseManager<ServiceModel> implement
         Connection connection = DBConnection.getConnection();
 
         try {
-            String query = "SELECT s.id,s.serviceid,s.smsServiceActivationNumber,s.criteria,a.spid,a.password, " +
-                    "s.correlator, s.status, s.dateCreated, s.dateActivated, s.dateDeactivated FROM services s " +
-                    "INNER JOIN account a WHERE  s.accountid=a.id AND s.status=" + Status.STATUS_READY.getStatus() + " LIMIT 20";
+            String query = "SELECT id, service_id, ssan, criteria,spid,password FROM activate_service_view";
             List<ServiceModel> services = new QueryRunner<ServiceModel>(connection, query).getList(type);
-            PreparedStatement updateStatement = connection.prepareStatement("update services set correlator =?, status =?,dateActivated=? WHERE serviceid =?");
+            PreparedStatement updateStatement =
+                    connection.prepareStatement("update services set correlator =?, status =? WHERE id =?");
 
             List<EndpointModel> endpoints = Endpoints.getInstance.getEndPoints(connection);
 
@@ -99,7 +98,7 @@ public class ServiceNotification extends DatabaseManager<ServiceModel> implement
                 payload.addChild(spPassword);
 
                 OMElement service_Id = factory.createOMElement(new QName("serviceId"), null);
-                service_Id.setText(serv.getServiceid());
+                service_Id.setText(serv.getService_id());
                 payload.addChild(service_Id);
 
                 OMElement time_Stamp = factory.createOMElement(new QName("timeStamp"), null);
@@ -120,7 +119,7 @@ public class ServiceNotification extends DatabaseManager<ServiceModel> implement
                 simple.setInterfaceName(notifySmsReceptionEndpoint.getInterfacename());
                 simple.setCorrelator(correlator);
                 start.setReference(simple);
-                start.setSmsServiceActivationNumber(new URI(serv.getSmsServiceActivationNumber()));
+                start.setSmsServiceActivationNumber(new URI(serv.getSsan()));
 
                 if (serv.getCriteria() != null) {
                     start.setCriteria(serv.getCriteria());
@@ -136,13 +135,13 @@ public class ServiceNotification extends DatabaseManager<ServiceModel> implement
                         .getStartSmsNotificationResponse();
 
                 updateStatement.setString(1, correlator);
-                updateStatement.setInt(2, Status.STATUS_ACTIVE.getStatus());
-                updateStatement.setString(3, df.format(new Date()));
-                updateStatement.setString(4, serv.getServiceid());
+                updateStatement.setString(2, Status.STATUS_ACTIVE.toString());
+                // updateStatement.setString(3, df.format(new Date()));
+                updateStatement.setInt(4, serv.getId());
                 updateStatement.executeUpdate();
 
                 logManager.debug(response.toString());
-                logManager.debug("SERVICE : " + serv.getServiceid() + "NOTIFICATION STARTED, CORRELATOR " + correlator);
+                logManager.debug("SERVICE : " + serv.getService_id() + "NOTIFICATION STARTED, CORRELATOR " + correlator);
             }
 
         } catch (AxisFault e) {
@@ -179,8 +178,7 @@ public class ServiceNotification extends DatabaseManager<ServiceModel> implement
         Connection connection = DBConnection.getConnection();
         try {
 
-            String query = "SELECT s.serviceid,s.correlator,a.spid,a.password FROM services s INNER JOIN account a WHERE  " +
-                    "s.accountid=a.id AND s.status=" + Status.STOP_PENDING.getStatus();
+            String query = "SELECT  id, service_id, ssan, criteria, spid, password  FROM deactivate_service_view";
 
             List<ServiceModel> services = new QueryRunner<ServiceModel>(connection, query).getList(type);
             List<EndpointModel> endpoints = Endpoints.getInstance.getEndPoints(connection);
@@ -191,8 +189,8 @@ public class ServiceNotification extends DatabaseManager<ServiceModel> implement
             if (notificationEndpoint == null) {
                 throw new SdpEndpointException("Sdp endpoint missing");
             }
-            PreparedStatement updateStatetment = connection.prepareStatement("UPDATE services SET status =? ," +
-                    "date_deactivated=? WHERE serviceid = ?");
+            PreparedStatement updateStatetment = connection.prepareStatement("UPDATE services SET status =?, " +
+                    "updated_at=? WHERE id= ?");
 
             for (ServiceModel serv : services) {
                 notification_stub = new SmsNotificationManagerServiceStub(notificationEndpoint.getUrl());
@@ -229,7 +227,7 @@ public class ServiceNotification extends DatabaseManager<ServiceModel> implement
 
                 OMElement service_Id = factory.createOMElement(new QName(
                         "serviceId"), null);
-                service_Id.setText(serv.getServiceid());
+                service_Id.setText(serv.getService_id());
                 payload.addChild(service_Id);
 
                 OMElement time_Stamp = factory.createOMElement(new QName(
@@ -249,12 +247,12 @@ public class ServiceNotification extends DatabaseManager<ServiceModel> implement
                 responseE.getStopSmsNotificationResponse();
 
 
-                updateStatetment.setInt(1, Status.STATUS_STOPPED.getStatus());
+                updateStatetment.setString(1, Status.STATUS_STOPPED.toString());
                 updateStatetment.setString(2, new DateService().now());
-                updateStatetment.setString(3, serv.getServiceid());
+                updateStatetment.setInt(3, serv.getId());
 
                 updateStatetment.executeUpdate();
-                logManager.debug("Service : " + serv.getServiceid() + " has been deactivated:");
+                logManager.debug("Service : " + serv.getService_id() + " has been deactivated:");
 
             }
 
