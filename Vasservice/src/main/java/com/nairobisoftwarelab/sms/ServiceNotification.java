@@ -32,6 +32,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @DisallowConcurrentExecution
@@ -46,17 +47,16 @@ public class ServiceNotification extends DatabaseManager<ServiceModel> implement
      * startNotification method. This will allow an sms service to receive smses
      * and delivery reports online.
      */
-
     public void startServiceNotification() {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         logManager.debug("Checking new services");
         Connection connection = DBConnection.getConnection();
 
         try {
-            String query = "SELECT id, service_id, ssan, criteria,spid,password FROM activate_service_view";
+            String query = "SELECT id, service_id, ssan, criteria, spid, password FROM activate_service_view";
             List<ServiceModel> services = new QueryRunner<ServiceModel>(connection, query).getList(type);
             PreparedStatement updateStatement =
-                    connection.prepareStatement("update services set correlator =?, status =? WHERE id =?");
+                    connection.prepareStatement("update services set correlator =?, status =?, updated_at=? WHERE id =?");
 
             List<EndpointModel> endpoints = Endpoints.getInstance.getEndPoints(connection);
 
@@ -137,7 +137,7 @@ public class ServiceNotification extends DatabaseManager<ServiceModel> implement
 
                 updateStatement.setString(1, correlator);
                 updateStatement.setString(2, Status.STATUS_ACTIVE.toString());
-                // updateStatement.setString(3, df.format(new Date()));
+                updateStatement.setString(3, df.format(new Date()));
                 updateStatement.setInt(4, serv.getId());
                 updateStatement.executeUpdate();
 

@@ -62,7 +62,7 @@ public class SMSSender extends DatabaseManager<OutboxModel> implements Job {
         SendSms sendsms = new SendSms();
         Connection connection = DBConnection.getConnection();
         try {
-            String sql = "SELECT * FROM send_smses  LIMIT 20";
+            String sql = "SELECT * FROM send_sms_view  LIMIT 20";
             List<OutboxModel> outboxMessages = new QueryRunner<OutboxModel>(connection, sql).getList(type);
 
             List<EndpointModel> endpoints = Endpoints.getInstance.getEndPoints(connection);
@@ -87,7 +87,7 @@ public class SMSSender extends DatabaseManager<OutboxModel> implements Job {
                     Boolean.TRUE);
             sendSmsClient.setOptions(options);
 
-            PreparedStatement updateStatement = connection.prepareStatement("UPDATE outbox SET requestIdentifier=?,  status = ?, correlator=? where id =?");
+            PreparedStatement updateStatement = connection.prepareStatement("UPDATE outbox SET request_identifier=?,  status = ?, correlator=? where id =?");
 
             for (OutboxModel outbox : outboxMessages) {
                 String time = new DateService().formattedTime();
@@ -162,7 +162,6 @@ public class SMSSender extends DatabaseManager<OutboxModel> implements Job {
                 updateStatement.setInt(4, outbox.getId());
                 updateStatement.executeUpdate();
             }
-
 
         } catch (MalformedURIException e) {
             logger.error(e.getMessage(), e);

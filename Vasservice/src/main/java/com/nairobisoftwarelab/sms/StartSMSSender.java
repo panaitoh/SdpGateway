@@ -22,11 +22,11 @@ public class StartSMSSender {
             sched.start();
 
             JobDetail job = newJob(SMSSender.class)
-                    .withIdentity("myJob", "group1")
+                    .withIdentity("SMS_SENDER_JOB", "SMS_SENDER")
                     .build();
 
             Trigger trigger = newTrigger()
-                    .withIdentity("myTrigger", "group1")
+                    .withIdentity("SMS_SENDER_TRIGGER", "SMS_SENDER")
                     .startNow()
                     .withSchedule(simpleSchedule()
                             .withIntervalInSeconds(5)
