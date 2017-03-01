@@ -62,7 +62,7 @@ public class SMSSender extends DatabaseManager<OutboxModel> implements Job {
         SendSms sendsms = new SendSms();
         Connection connection = DBConnection.getConnection();
         try {
-            String sql = "SELECT * FROM send_sms_view  LIMIT 20";
+            String sql = "SELECT * FROM send_smses  LIMIT 20";
             List<OutboxModel> outboxMessages = new QueryRunner<OutboxModel>(connection, sql).getList(type);
 
             List<EndpointModel> endpoints = Endpoints.getInstance.getEndPoints(connection);
@@ -87,12 +87,11 @@ public class SMSSender extends DatabaseManager<OutboxModel> implements Job {
                     Boolean.TRUE);
             sendSmsClient.setOptions(options);
 
-            PreparedStatement updateStatement = connection.prepareStatement("UPDATE outbox SET request_identifier=?,  status = ?, correlator=? where id =?");
+            PreparedStatement updateStatement = connection.prepareStatement("UPDATE outbox SET requestIdentifier=?,  status = ? WHERE id =?");
 
             for (OutboxModel outbox : outboxMessages) {
                 String time = new DateService().formattedTime();
                 String pass = new TokenGenerator(outbox.getSpid(), outbox.getPassword(), time).getToken();
-                String correlator = "" + new Correlator(connection).getCorrelator();
 
                 SOAPFactory factory = OMAbstractFactory.getSOAP11Factory();
                 OMNamespace namespace = factory.createOMNamespace(
@@ -142,7 +141,7 @@ public class SMSSender extends DatabaseManager<OutboxModel> implements Job {
                 SimpleReference ref = new SimpleReference();
                 ref.setEndpoint(new URI(deliveryEndpoint.getUrl()));
                 ref.setInterfaceName(deliveryEndpoint.getInterfacename());
-                ref.setCorrelator(correlator);
+                ref.setCorrelator(outbox.getCorrelator());
 
                 sendsms.setReceiptRequest(ref);
 
@@ -158,10 +157,10 @@ public class SMSSender extends DatabaseManager<OutboxModel> implements Job {
 
                 updateStatement.setString(1, result);
                 updateStatement.setString(2, Status.STATUS_PROCESSED.toString());
-                updateStatement.setString(3, correlator);
-                updateStatement.setInt(4, outbox.getId());
+                updateStatement.setInt(3, outbox.getId());
                 updateStatement.executeUpdate();
             }
+
 
         } catch (MalformedURIException e) {
             logger.error(e.getMessage(), e);
@@ -187,7 +186,6 @@ public class SMSSender extends DatabaseManager<OutboxModel> implements Job {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-
         }
     }
 

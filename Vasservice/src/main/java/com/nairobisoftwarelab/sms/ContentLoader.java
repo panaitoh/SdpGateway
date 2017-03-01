@@ -1,9 +1,7 @@
 package com.nairobisoftwarelab.sms;
 
-import com.nairobisoftwarelab.util.DBConnection;
-import com.nairobisoftwarelab.util.ILogManager;
-import com.nairobisoftwarelab.util.LogManager;
-import com.nairobisoftwarelab.util.Status;
+import com.nairobisoftwarelab.Database.QueryRunner;
+import com.nairobisoftwarelab.util.*;
 import org.quartz.DisallowConcurrentExecution;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
@@ -18,37 +16,68 @@ public class ContentLoader implements Job {
 
     public void getNewContent() {
         Connection connection = DBConnection.getConnection();
-
         logManger.debug("Checking for new content");
-        String sql = "SELECT id,product_id,message,scheduled_date FROM content WHERE status='" + Status.STATUS_PENDING.toString() + "' AND scheduled_date <=now()";
+
         try {
-            PreparedStatement pstmt = connection.prepareStatement("UPDATE content SET status =? WHERE id =?");
+            String sql = "SELECT id, product_id, message, content_type FROM vasmaster_content.scheduled_content_view " +
+                    "WHERE scheduled_date <=now() LIMIT 1";
+            connection.setAutoCommit(false);
+            PreparedStatement pstmt = connection.prepareStatement("UPDATE vasmaster_content.content SET status =? WHERE id =?");
+            PreparedStatement pstmtoutbox = connection.prepareStatement("INSERT INTO outbox(message, " +
+                    "sender_address, service_id, content_id, correlator) VALUES(?,?,?,?,?)");
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery(sql);
 
+            CorrelatorService correlatorService = new CorrelatorService();
+
+            int correlator = correlatorService.getCurrentCorrelator(connection);
+
             int count = 0;
             while (rs.next()) {
-                int id = rs.getInt(1);
-                String product = rs.getString(2);
+                int content_id = rs.getInt(1);
+                int product_id = rs.getInt(2);
                 String message = rs.getString(3);
-                String scheduledDate = rs.getString(4);
+                String content_type = rs.getString(4);
 
-                logManger.debug("Content for " + product + " scheduled for " + scheduledDate);
-                prepareToSend(connection, product, message);
-                pstmt.setString(1, Status.STATUS_PROCESSED.toString());
-                pstmt.setInt(2, id);
+                String subSql = "SELECT msisdn, service_id FROM vasmaster_service.send_subscription_view WHERE product_id = "+product_id;
+                Statement subStatement = connection.createStatement();
+                ResultSet subRs = subStatement.executeQuery(subSql);
+                while(subRs.next()){
+                    correlator++;
+                    pstmtoutbox.setString(1, message);
+                    pstmtoutbox.setString(2, rs.getString(1));
+                    pstmtoutbox.setInt(3, rs.getInt(2));
+                    pstmtoutbox.setInt(4, content_id);
+                    pstmtoutbox.setString(5, formatCorrelator(correlator));
 
-                pstmt.addBatch();
-                count++;
+                    correlatorService.SaveCurrentCorrelator(connection, correlator);
 
-                if (count % 100 == 0) {
-                    pstmt.executeBatch();
-                    count = 0;
+                    pstmtoutbox.addBatch();
+                    count++;
+
+                    if (count % 100 == 0) {
+                        pstmtoutbox.executeBatch();
+                        count = 0;
+                    }
                 }
+
+                pstmtoutbox.executeBatch();
+
+                // update content
+                pstmt.setString(1, Status.STATUS_PROCESSED.toString());
+                pstmt.setInt(2, content_id);
+                pstmt.executeUpdate();
             }
-            pstmt.executeBatch();
+
+            connection.commit();
         } catch (SQLException e) {
+            e.printStackTrace();
             logManger.error(e.getMessage(), e);
+            try {
+                connection.rollback();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
         } finally {
             try {
                 if (connection != null) {
@@ -60,35 +89,35 @@ public class ContentLoader implements Job {
         }
     }
 
-    private void prepareToSend(Connection connection, String product, String message) {
-        String sql = "SELECT msisdn, service_id FROM vasmaster_service.send_subscription_view WHERE product_id=" + product;
+    public  static void main(String args[]){
+        ContentLoader c = new ContentLoader();
+        c.getNewContent();
+    }
+
+    private int getCorrelator(Connection connection) {
+        String sql = "SELECT MAX(id) FROM correlator order by id desc limit 1";
+        int correlator = 0;
+
         try {
-            PreparedStatement pstmt = connection.prepareStatement("INSERT INTO vasmaster_service.outbox(message,service_id,sender_address) VALUES(?,?,?)");
             Statement statement = connection.createStatement();
-            ResultSet rs1 = statement.executeQuery(sql);
-            int count = 0;
-            while (rs1.next()) {
-                String msisdn = rs1.getString(1);
-                int service = rs1.getInt(2);
-
-                pstmt.setString(1, message);
-                pstmt.setInt(2, service);
-                pstmt.setString(3, msisdn);
-                pstmt.addBatch();
-
-                count++;
-
-                if (count % 100 == 0) {
-                    pstmt.executeBatch();
-                    count = 0;
-                }
+            ResultSet rs = statement.executeQuery(sql);
+            while (rs.next()) {
+                correlator = rs.getInt(1);
             }
 
-            pstmt.executeBatch();
-
-        } catch (SQLException e) {
-            logManger.error(e.getMessage(), e);
+            return correlator;
+        } catch (SQLException ex) {
+            logManger.error(ex.getMessage(), ex);
         }
+
+        return 0;
+    }
+
+    private String formatCorrelator(int correlator){
+        Integer i = Integer.valueOf(correlator);
+        String format = "%1$010d";
+        String newCorrelator = String.format(format, i);
+        return newCorrelator;
     }
 
     @Override

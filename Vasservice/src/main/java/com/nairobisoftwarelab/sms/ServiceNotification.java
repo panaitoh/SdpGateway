@@ -32,7 +32,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 @DisallowConcurrentExecution
@@ -47,16 +46,17 @@ public class ServiceNotification extends DatabaseManager<ServiceModel> implement
      * startNotification method. This will allow an sms service to receive smses
      * and delivery reports online.
      */
+
     public void startServiceNotification() {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         logManager.debug("Checking new services");
         Connection connection = DBConnection.getConnection();
 
         try {
-            String query = "SELECT id, service_id, ssan, criteria, spid, password FROM activate_service_view";
+            String query = "SELECT id, service_id, ssan, criteria,spid,password FROM activate_service_view";
             List<ServiceModel> services = new QueryRunner<ServiceModel>(connection, query).getList(type);
             PreparedStatement updateStatement =
-                    connection.prepareStatement("update services set correlator =?, status =?, updated_at=? WHERE id =?");
+                    connection.prepareStatement("UPDATE services SET status =? WHERE id =?");
 
             List<EndpointModel> endpoints = Endpoints.getInstance.getEndPoints(connection);
 
@@ -109,16 +109,11 @@ public class ServiceNotification extends DatabaseManager<ServiceModel> implement
                 startClient.addHeader(payload);
 
                 StartSmsNotification start = new StartSmsNotification();
-                String correlator = new Correlator(connection).getCorrelator();
-                if (correlator == null) {
-                    throw new CorrelatorException("Correlator missing");
-                }
-
 
                 SimpleReference simple = new SimpleReference();
                 simple.setEndpoint(new URI(notifySmsReceptionEndpoint.getUrl().trim()));
                 simple.setInterfaceName(notifySmsReceptionEndpoint.getInterfacename());
-                simple.setCorrelator(correlator);
+                simple.setCorrelator(serv.getCorrelator());
                 start.setReference(simple);
                 start.setSmsServiceActivationNumber(new URI(serv.getSsan()));
 
@@ -135,14 +130,12 @@ public class ServiceNotification extends DatabaseManager<ServiceModel> implement
                 StartSmsNotificationResponse response = responseE
                         .getStartSmsNotificationResponse();
 
-                updateStatement.setString(1, correlator);
-                updateStatement.setString(2, Status.STATUS_ACTIVE.toString());
-                updateStatement.setString(3, df.format(new Date()));
-                updateStatement.setInt(4, serv.getId());
+                updateStatement.setString(1, Status.STATUS_ACTIVE.toString());
+                updateStatement.setInt(2, serv.getId());
                 updateStatement.executeUpdate();
 
                 logManager.debug(response.toString());
-                logManager.debug("SERVICE : " + serv.getService_id() + "NOTIFICATION STARTED, CORRELATOR " + correlator);
+                logManager.debug("SERVICE : " + serv.getService_id() + "NOTIFICATION STARTED, CORRELATOR " + serv.getCorrelator());
             }
 
         } catch (AxisFault e) {
@@ -159,8 +152,6 @@ public class ServiceNotification extends DatabaseManager<ServiceModel> implement
             logManager.error(e.getMessage(), e);
         } catch (SdpEndpointException e) {
             logManager.error(e.getMessage(), e);
-        } catch (CorrelatorException e) {
-            logManager.error(e.getMessage(), e);
         } finally {
             try {
                 if (connection != null) {
@@ -169,7 +160,6 @@ public class ServiceNotification extends DatabaseManager<ServiceModel> implement
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-
         }
     }
 
