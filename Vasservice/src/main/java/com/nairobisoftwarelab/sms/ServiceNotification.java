@@ -48,7 +48,6 @@ public class ServiceNotification extends DatabaseManager<ServiceModel> implement
      */
 
     public void startServiceNotification() {
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         logManager.debug("Checking new services");
         Connection connection = DBConnection.getConnection();
 
@@ -56,10 +55,9 @@ public class ServiceNotification extends DatabaseManager<ServiceModel> implement
             String query = "SELECT id, service_id, ssan, criteria,spid,password FROM activate_service_view";
             List<ServiceModel> services = new QueryRunner<ServiceModel>(connection, query).getList(type);
             PreparedStatement updateStatement =
-                    connection.prepareStatement("UPDATE services SET status =? WHERE id =?");
+                    connection.prepareStatement("UPDATE services SET status =?, updated_at=? WHERE id =?");
 
             List<EndpointModel> endpoints = Endpoints.getInstance.getEndPoints(connection);
-
 
             EndpointModel notificationEndpoint = endpoints.stream()
                     .filter(item -> item.getEndpointname().equals("notification")).findFirst().get();
@@ -95,7 +93,7 @@ public class ServiceNotification extends DatabaseManager<ServiceModel> implement
 
                 String pass = new TokenGenerator(serv.getSpid(), serv.getPassword(), time).getToken();
                 OMElement spPassword = factory.createOMElement(new QName("spPassword"), null);
-                spPassword.setText("0fc9754978a5744c80035b9abc1b62b9");
+                spPassword.setText(pass);
                 payload.addChild(spPassword);
 
                 OMElement service_Id = factory.createOMElement(new QName("serviceId"), null);
@@ -103,7 +101,7 @@ public class ServiceNotification extends DatabaseManager<ServiceModel> implement
                 payload.addChild(service_Id);
 
                 OMElement time_Stamp = factory.createOMElement(new QName("timeStamp"), null);
-                time_Stamp.setText("20161025202524");
+                time_Stamp.setText(time);
                 payload.addChild(time_Stamp);
 
                 startClient.addHeader(payload);
@@ -131,7 +129,8 @@ public class ServiceNotification extends DatabaseManager<ServiceModel> implement
                         .getStartSmsNotificationResponse();
 
                 updateStatement.setString(1, Status.STATUS_ACTIVE.toString());
-                updateStatement.setInt(2, serv.getId());
+                updateStatement.setString(2,  new DateService().now());
+                updateStatement.setInt(3, serv.getId());
                 updateStatement.executeUpdate();
 
                 logManager.debug(response.toString());
@@ -180,6 +179,7 @@ public class ServiceNotification extends DatabaseManager<ServiceModel> implement
             if (notificationEndpoint == null) {
                 throw new SdpEndpointException("Sdp endpoint missing");
             }
+
             PreparedStatement updateStatetment = connection.prepareStatement("UPDATE services SET status =?, " +
                     "updated_at=? WHERE id= ?");
 
@@ -267,7 +267,6 @@ public class ServiceNotification extends DatabaseManager<ServiceModel> implement
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-
         }
     }
 

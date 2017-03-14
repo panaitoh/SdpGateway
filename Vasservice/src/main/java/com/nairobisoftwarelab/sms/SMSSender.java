@@ -88,8 +88,10 @@ public class SMSSender extends DatabaseManager<OutboxModel> implements Job {
             sendSmsClient.setOptions(options);
 
             PreparedStatement updateStatement = connection.prepareStatement("UPDATE outbox SET requestIdentifier=?,  status = ? WHERE id =?");
+            OutboxModel currentMessage = null;
 
             for (OutboxModel outbox : outboxMessages) {
+                currentMessage = outbox;
                 String time = new DateService().formattedTime();
                 String pass = new TokenGenerator(outbox.getSpid(), outbox.getPassword(), time).getToken();
 
@@ -169,8 +171,10 @@ public class SMSSender extends DatabaseManager<OutboxModel> implements Job {
         } catch (RemoteException e) {
             logger.error(e.getMessage(), e);
         } catch (PolicyException e) {
+            // TODO : send out policy errors to system admin
             logger.error(e.getMessage(), e);
         } catch (ServiceException e) {
+            // TODO : send out service errors to system admin
             logger.error(e.getMessage(), e);
         } catch (SQLException e) {
             logger.error(e.getMessage(), e);

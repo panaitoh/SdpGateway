@@ -38,8 +38,6 @@ public class TokenGenerator {
     }
 
     public String getToken() {
-        System.out.println(token);
-        // System.exit(1);
         return token;
     }
 }

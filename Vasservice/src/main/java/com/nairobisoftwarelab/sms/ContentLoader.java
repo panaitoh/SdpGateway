@@ -1,12 +1,10 @@
 package com.nairobisoftwarelab.sms;
 
-import com.nairobisoftwarelab.Database.QueryRunner;
 import com.nairobisoftwarelab.util.*;
 import org.quartz.DisallowConcurrentExecution;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
-
 import java.sql.*;
 
 @DisallowConcurrentExecution
@@ -37,7 +35,7 @@ public class ContentLoader implements Job {
                 int content_id = rs.getInt(1);
                 int product_id = rs.getInt(2);
                 String message = rs.getString(3);
-                String content_type = rs.getString(4);
+                String content_type = rs.getString(4); //TODO : set message priority
 
                 String subSql = "SELECT msisdn, service_id FROM vasmaster_service.send_subscription_view WHERE product_id = "+product_id;
                 Statement subStatement = connection.createStatement();
