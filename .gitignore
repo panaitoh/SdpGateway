@@ -7,5 +7,6 @@ Supergateway/build
 Supergateway/.idea
 Supergateway/gradle
 .idea
-lib
+libs
 out
+logs

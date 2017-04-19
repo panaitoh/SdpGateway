@@ -85,7 +85,7 @@
                             
 
                         /**
-                        * field for Correlator
+                        * field for CorrelatorService
                         */
 
                         
@@ -104,7 +104,7 @@
                         
                             /**
                                * Auto generated setter method
-                               * @param param Correlator
+                               * @param param CorrelatorService
                                */
                                public void setCorrelator(java.lang.String param){
                             

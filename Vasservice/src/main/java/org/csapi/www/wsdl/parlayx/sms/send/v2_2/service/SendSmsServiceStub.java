@@ -1387,8 +1387,7 @@ public class SendSmsServiceStub extends org.apache.axis2.client.Stub implements
 
 			// add the message contxt to the operation client
 			_operationClient.addMessageContext(_messageContext);
-			
-			System.err.println(env);
+
 			// execute the operation client
 			_operationClient.execute(true);
 
