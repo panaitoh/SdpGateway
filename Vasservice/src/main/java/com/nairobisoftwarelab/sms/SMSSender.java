@@ -87,12 +87,13 @@ public class SMSSender extends DatabaseManager<OutboxModel> implements Job {
                     Boolean.TRUE);
             sendSmsClient.setOptions(options);
 
-            PreparedStatement updateStatement = connection.prepareStatement("UPDATE outbox SET requestIdentifier=?,  status = ?, correlator=? where id =?");
+            PreparedStatement updateStatement = connection.prepareStatement("UPDATE outbox SET requestIdentifier=?,  status = ? WHERE id =?");
+            OutboxModel currentMessage = null;
 
             for (OutboxModel outbox : outboxMessages) {
+                currentMessage = outbox;
                 String time = new DateService().formattedTime();
                 String pass = new TokenGenerator(outbox.getSpid(), outbox.getPassword(), time).getToken();
-                String correlator = "" + new Correlator(connection).getCorrelator();
 
                 SOAPFactory factory = OMAbstractFactory.getSOAP11Factory();
                 OMNamespace namespace = factory.createOMNamespace(
@@ -142,7 +143,7 @@ public class SMSSender extends DatabaseManager<OutboxModel> implements Job {
                 SimpleReference ref = new SimpleReference();
                 ref.setEndpoint(new URI(deliveryEndpoint.getUrl()));
                 ref.setInterfaceName(deliveryEndpoint.getInterfacename());
-                ref.setCorrelator(correlator);
+                ref.setCorrelator(outbox.getCorrelator());
 
                 sendsms.setReceiptRequest(ref);
 
@@ -158,8 +159,7 @@ public class SMSSender extends DatabaseManager<OutboxModel> implements Job {
 
                 updateStatement.setString(1, result);
                 updateStatement.setString(2, Status.STATUS_PROCESSED.toString());
-                updateStatement.setString(3, correlator);
-                updateStatement.setInt(4, outbox.getId());
+                updateStatement.setInt(3, outbox.getId());
                 updateStatement.executeUpdate();
             }
 
@@ -171,8 +171,10 @@ public class SMSSender extends DatabaseManager<OutboxModel> implements Job {
         } catch (RemoteException e) {
             logger.error(e.getMessage(), e);
         } catch (PolicyException e) {
+            // TODO : send out policy errors to system admin
             logger.error(e.getMessage(), e);
         } catch (ServiceException e) {
+            // TODO : send out service errors to system admin
             logger.error(e.getMessage(), e);
         } catch (SQLException e) {
             logger.error(e.getMessage(), e);
@@ -188,7 +190,6 @@ public class SMSSender extends DatabaseManager<OutboxModel> implements Job {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-
         }
     }
 
