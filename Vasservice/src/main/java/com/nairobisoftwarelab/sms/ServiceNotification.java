@@ -40,6 +40,7 @@ public class ServiceNotification extends DatabaseManager<ServiceModel> implement
     private ILogManager logManager = new LogManager(this);
     private Type type = new TypeToken<List<ServiceModel>>() {
     }.getType();
+    private ServiceClient sendSmsClient;
 
     /**
      * This method initiates start service notification by invoking sdp
@@ -71,18 +72,19 @@ public class ServiceNotification extends DatabaseManager<ServiceModel> implement
                 throw new SdpEndpointException("Sdp endpoint missing");
             }
 
+            notification_stub = new SmsNotificationManagerServiceStub(notificationEndpoint.getUrl().trim());
+            sendSmsClient = notification_stub._getServiceClient();
+            Options options = sendSmsClient.getOptions();
+            options.setProperty(HTTPConstants.CHUNKED, Boolean.FALSE);
+            options.setTransportInProtocol(Constants.TRANSPORT_HTTP);
+            options.setProperty(Constants.Configuration.MESSAGE_TYPE,
+                    HTTPConstants.MEDIA_TYPE_APPLICATION_ECHO_XML);
+            options.setProperty(
+                    Constants.Configuration.DISABLE_SOAP_ACTION,
+                    Boolean.TRUE);
+            sendSmsClient.setOptions(options);
             for (ServiceModel serv : services) {
-                notification_stub = new SmsNotificationManagerServiceStub(notificationEndpoint.getUrl());
-                ServiceClient startClient = notification_stub._getServiceClient();
-                Options options = startClient.getOptions();
-                options.setProperty(HTTPConstants.CHUNKED, Boolean.FALSE);
-                options.setTransportInProtocol(Constants.TRANSPORT_HTTP);
-                options.setProperty(Constants.Configuration.MESSAGE_TYPE,
-                        HTTPConstants.MEDIA_TYPE_APPLICATION_ECHO_XML);
-                options.setProperty(
-                        Constants.Configuration.DISABLE_SOAP_ACTION,
-                        Boolean.TRUE);
-                startClient.setOptions(options);
+
 
                 String time = new DateService().formattedTime();
                 SOAPFactory factory = OMAbstractFactory.getSOAP11Factory();
@@ -95,7 +97,7 @@ public class ServiceNotification extends DatabaseManager<ServiceModel> implement
 
                 String pass = new TokenGenerator(serv.getSpid(), serv.getPassword(), time).getToken();
                 OMElement spPassword = factory.createOMElement(new QName("spPassword"), null);
-                spPassword.setText("0fc9754978a5744c80035b9abc1b62b9");
+                spPassword.setText(pass);
                 payload.addChild(spPassword);
 
                 OMElement service_Id = factory.createOMElement(new QName("serviceId"), null);
@@ -103,10 +105,10 @@ public class ServiceNotification extends DatabaseManager<ServiceModel> implement
                 payload.addChild(service_Id);
 
                 OMElement time_Stamp = factory.createOMElement(new QName("timeStamp"), null);
-                time_Stamp.setText("20161025202524");
+                time_Stamp.setText(time);
                 payload.addChild(time_Stamp);
 
-                startClient.addHeader(payload);
+                sendSmsClient.addHeader(payload);
 
                 StartSmsNotification start = new StartSmsNotification();
                 String correlator = new Correlator(connection).getCorrelator();
@@ -137,8 +139,8 @@ public class ServiceNotification extends DatabaseManager<ServiceModel> implement
 
                 updateStatement.setString(1, correlator);
                 updateStatement.setString(2, Status.STATUS_ACTIVE.toString());
-                // updateStatement.setString(3, df.format(new Date()));
-                updateStatement.setInt(4, serv.getId());
+                //updateStatement.setString(3, df.format(new Date()));
+                updateStatement.setInt(3, serv.getId());
                 updateStatement.executeUpdate();
 
                 logManager.debug(response.toString());
@@ -146,20 +148,27 @@ public class ServiceNotification extends DatabaseManager<ServiceModel> implement
             }
 
         } catch (AxisFault e) {
+            e.printStackTrace();
             logManager.error(e.getMessage(), e);
         } catch (MalformedURIException e) {
+            e.printStackTrace();
             logManager.error(e.getMessage(), e);
         } catch (RemoteException e) {
+            e.printStackTrace();
             logManager.error(e.getMessage(), e);
         } catch (SQLException e) {
+            e.printStackTrace();
             logManager.error(e.getMessage(), e);
         } catch (org.csapi.www.wsdl.parlayx.sms.notification_manager.v2_3.service.PolicyException e) {
+            e.printStackTrace();
             logManager.error(e.getMessage(), e);
         } catch (org.csapi.www.wsdl.parlayx.sms.notification_manager.v2_3.service.ServiceException e) {
             logManager.error(e.getMessage(), e);
         } catch (SdpEndpointException e) {
+            e.printStackTrace();
             logManager.error(e.getMessage(), e);
         } catch (CorrelatorException e) {
+            e.printStackTrace();
             logManager.error(e.getMessage(), e);
         } finally {
             try {
@@ -258,16 +267,22 @@ public class ServiceNotification extends DatabaseManager<ServiceModel> implement
             }
 
         } catch (AxisFault e) {
+            e.printStackTrace();
             logManager.error(e.getMessage(), e);
         } catch (RemoteException e) {
+            e.printStackTrace();
             logManager.error(e.getMessage(), e);
         } catch (SQLException e) {
+            e.printStackTrace();
             logManager.error(e.getMessage(), e);
         } catch (org.csapi.www.wsdl.parlayx.sms.notification_manager.v2_3.service.PolicyException e) {
+            e.printStackTrace();
             logManager.error(e.getMessage(), e);
         } catch (org.csapi.www.wsdl.parlayx.sms.notification_manager.v2_3.service.ServiceException e) {
+            e.printStackTrace();
             logManager.error(e.getMessage(), e);
         } catch (SdpEndpointException e) {
+            e.printStackTrace();
             logManager.error(e.getMessage(), e);
         } finally {
             try {
@@ -285,5 +300,11 @@ public class ServiceNotification extends DatabaseManager<ServiceModel> implement
     public void execute(JobExecutionContext context) throws JobExecutionException {
         startServiceNotification();
         stopServiceNotification();
+    }
+
+
+    public static void main(String[] args){
+        ServiceNotification serv = new ServiceNotification();
+        serv.startServiceNotification();
     }
 }
