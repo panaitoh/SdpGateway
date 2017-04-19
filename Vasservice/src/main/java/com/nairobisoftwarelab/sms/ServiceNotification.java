@@ -55,22 +55,32 @@ public class ServiceNotification extends DatabaseManager<ServiceModel> implement
             String query = "SELECT id, service_id, ssan, criteria,spid,password FROM activate_service_view";
             List<ServiceModel> services = new QueryRunner<ServiceModel>(connection, query).getList(type);
             PreparedStatement updateStatement =
-                    connection.prepareStatement("UPDATE services SET status =?, updated_at=? WHERE id =?");
+                    connection.prepareStatement("UPDATE services SET status =?, updated_at=?, correlator=? WHERE id =?");
+            Endpoints endpoint = new Endpoints();
+            List<EndpointModel> endpointUrls = endpoint.getEndPoints(connection);
 
-            List<EndpointModel> endpoints = Endpoints.getInstance.getEndPoints(connection);
+            if (endpointUrls == null || endpointUrls.size() <= 0)
+            {
+                throw new SdpEndpointException("No sdp endpoints found");
+            }
 
-            EndpointModel notificationEndpoint = endpoints.stream()
+            EndpointModel notificationEndpoint = endpointUrls.stream()
                     .filter(item -> item.getEndpointname().equals("notification")).findFirst().get();
 
-            EndpointModel notifySmsReceptionEndpoint = endpoints.stream()
+            EndpointModel notifySmsReceptionEndpoint = endpointUrls.stream()
                     .filter(item -> item.getEndpointname().equals("notifysms")).findFirst().get();
 
             if (notificationEndpoint == null || notifySmsReceptionEndpoint == null) {
                 throw new SdpEndpointException("Sdp endpoint missing");
             }
 
+            notification_stub = new SmsNotificationManagerServiceStub(notificationEndpoint.getUrl());
+            CorrelatorService correlatorService = new CorrelatorService();
+
             for (ServiceModel serv : services) {
-                notification_stub = new SmsNotificationManagerServiceStub(notificationEndpoint.getUrl());
+                int correlator = correlatorService.getCurrentCorrelator(connection);
+                serv.setCorrelator(correlatorService.formatCorrelator(correlator));
+                correlatorService.SaveCurrentCorrelator(connection, correlator);
                 ServiceClient startClient = notification_stub._getServiceClient();
                 Options options = startClient.getOptions();
                 options.setProperty(HTTPConstants.CHUNKED, Boolean.FALSE);
@@ -115,7 +125,7 @@ public class ServiceNotification extends DatabaseManager<ServiceModel> implement
                 start.setReference(simple);
                 start.setSmsServiceActivationNumber(new URI(serv.getSsan()));
 
-                if (serv.getCriteria() != null) {
+                if (serv.getCriteria() != null && !serv.getCriteria().trim().isEmpty()) {
                     start.setCriteria(serv.getCriteria());
                 }
 
@@ -130,7 +140,8 @@ public class ServiceNotification extends DatabaseManager<ServiceModel> implement
 
                 updateStatement.setString(1, Status.STATUS_ACTIVE.toString());
                 updateStatement.setString(2,  new DateService().now());
-                updateStatement.setInt(3, serv.getId());
+                updateStatement.setString(3, serv.getCorrelator());
+                updateStatement.setInt(4, serv.getId());
                 updateStatement.executeUpdate();
 
                 logManager.debug(response.toString());
@@ -150,6 +161,9 @@ public class ServiceNotification extends DatabaseManager<ServiceModel> implement
         } catch (org.csapi.www.wsdl.parlayx.sms.notification_manager.v2_3.service.ServiceException e) {
             logManager.error(e.getMessage(), e);
         } catch (SdpEndpointException e) {
+            logManager.error(e.getMessage(), e);
+        } catch (Exception e) {
+            e.printStackTrace();
             logManager.error(e.getMessage(), e);
         } finally {
             try {
@@ -171,7 +185,8 @@ public class ServiceNotification extends DatabaseManager<ServiceModel> implement
             String query = "SELECT  id, service_id, ssan, criteria, spid, password  FROM deactivate_service_view";
 
             List<ServiceModel> services = new QueryRunner<ServiceModel>(connection, query).getList(type);
-            List<EndpointModel> endpoints = Endpoints.getInstance.getEndPoints(connection);
+            Endpoints endpoint = new Endpoints();
+            List<EndpointModel> endpoints = endpoint.getEndPoints(connection);
             EndpointModel notificationEndpoint = endpoints.stream()
                     .filter(item -> item.getEndpointname().equals("notification")).findFirst().get();
 

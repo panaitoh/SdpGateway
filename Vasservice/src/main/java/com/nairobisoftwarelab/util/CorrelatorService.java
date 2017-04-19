@@ -30,6 +30,13 @@ public class CorrelatorService {
         return 0;
     }
 
+    public String formatCorrelator(int correlator){
+        Integer i = Integer.valueOf(correlator);
+        String format = "%1$010d";
+        String newCorrelator = String.format(format, i);
+        return newCorrelator;
+    }
+
     public void SaveCurrentCorrelator(Connection connection, int correlator) {
         Statement stmt;
         try {

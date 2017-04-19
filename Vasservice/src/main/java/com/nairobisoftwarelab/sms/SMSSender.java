@@ -65,7 +65,7 @@ public class SMSSender extends DatabaseManager<OutboxModel> implements Job {
             String sql = "SELECT * FROM send_smses  LIMIT 20";
             List<OutboxModel> outboxMessages = new QueryRunner<OutboxModel>(connection, sql).getList(type);
 
-            List<EndpointModel> endpoints = Endpoints.getInstance.getEndPoints(connection);
+            List<EndpointModel> endpoints = new Endpoints().getEndPoints(connection);
             EndpointModel deliveryEndpoint = endpoints.stream()
                     .filter(item -> item.getEndpointname().equals("deliverysms")).findFirst().get();
 
@@ -87,7 +87,7 @@ public class SMSSender extends DatabaseManager<OutboxModel> implements Job {
                     Boolean.TRUE);
             sendSmsClient.setOptions(options);
 
-            PreparedStatement updateStatement = connection.prepareStatement("UPDATE outbox SET requestIdentifier=?,  status = ? WHERE id =?");
+            PreparedStatement updateStatement = connection.prepareStatement("UPDATE outbox SET request_identifier=?,  status = ? WHERE id =?");
             OutboxModel currentMessage = null;
 
             for (OutboxModel outbox : outboxMessages) {
