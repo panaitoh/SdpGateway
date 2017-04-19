@@ -4,6 +4,7 @@ import com.google.gson.reflect.TypeToken;
 import com.nairobisoftwarelab.Database.QueryRunner;
 import com.nairobisoftwarelab.model.EndpointModel;
 import com.nairobisoftwarelab.model.OutboxModel;
+import com.nairobisoftwarelab.sms.Exceptions.SdpEndpointException;
 import com.nairobisoftwarelab.util.*;
 import org.apache.axiom.om.OMAbstractFactory;
 import org.apache.axiom.om.OMElement;
@@ -50,6 +51,9 @@ public class SMSSender extends DatabaseManager<OutboxModel> implements Job {
     private Type type = new TypeToken<List<OutboxModel>>() {
     }.getType();
 
+    public SMSSender(){
+
+    }
     /**
      * This method sends an sms to sdp
      */
@@ -58,12 +62,10 @@ public class SMSSender extends DatabaseManager<OutboxModel> implements Job {
         SendSms sendsms = new SendSms();
         Connection connection = DBConnection.getConnection();
         try {
-            String sql = "SELECT o.id,o.message,o.senderAddress,o.linkid, s.serviceid,s.smsServiceActivationNumber," +
-                    "a.spid,a.password FROM outbox o INNER JOIN account a INNER JOIN services s WHERE o.accountid=a.id " +
-                    "AND o.serviceid=s.id and o.status=" + Status.STATUS_PENDING.getStatus() + " LIMIT 20";
+            String sql = "SELECT * FROM send_smses  LIMIT 20";
             List<OutboxModel> outboxMessages = new QueryRunner<OutboxModel>(connection, sql).getList(type);
 
-            List<EndpointModel> endpoints = Endpoints.getInstance.getEndPoints(connection);
+            List<EndpointModel> endpoints = new Endpoints().getEndPoints(connection);
             EndpointModel deliveryEndpoint = endpoints.stream()
                     .filter(item -> item.getEndpointname().equals("deliverysms")).findFirst().get();
 
@@ -85,12 +87,13 @@ public class SMSSender extends DatabaseManager<OutboxModel> implements Job {
                     Boolean.TRUE);
             sendSmsClient.setOptions(options);
 
-            PreparedStatement updateStatement = connection.prepareStatement("UPDATE outbox SET requestIdentifier=?,  status = ? where id =?");
+            PreparedStatement updateStatement = connection.prepareStatement("UPDATE outbox SET request_identifier=?,  status = ? WHERE id =?");
+            OutboxModel currentMessage = null;
 
             for (OutboxModel outbox : outboxMessages) {
+                currentMessage = outbox;
                 String time = new DateService().formattedTime();
                 String pass = new TokenGenerator(outbox.getSpid(), outbox.getPassword(), time).getToken();
-                String correlator = "" + new Correlator(connection).getCorrelator();
 
                 SOAPFactory factory = OMAbstractFactory.getSOAP11Factory();
                 OMNamespace namespace = factory.createOMNamespace(
@@ -108,39 +111,39 @@ public class SMSSender extends DatabaseManager<OutboxModel> implements Job {
 
                 OMElement service_Id = factory.createOMElement("serviceId",
                         namespace);
-                service_Id.setText(outbox.getServiceid());
+                service_Id.setText(outbox.getService_id());
                 payload.addChild(service_Id);
 
                 OMElement time_Stamp = factory.createOMElement("timeStamp", namespace);
                 time_Stamp.setText(time);
                 payload.addChild(time_Stamp);
-                if (outbox.getLinkid() != null) {
+                if (outbox.getLink_id() != null) {
                     OMElement sdp_linkid = factory.createOMElement("linkid",
                             namespace);
-                    sdp_linkid.setText(outbox.getLinkid());
+                    sdp_linkid.setText(outbox.getLink_id());
                     payload.addChild(sdp_linkid);
                 }
 
                 OMElement sdp_oa = factory.createOMElement("OA", namespace);
-                sdp_oa.setText(outbox.getSenderAddress());
+                sdp_oa.setText(outbox.getSender_address());
                 payload.addChild(sdp_oa);
 
                 OMElement sdp_fa = factory.createOMElement("FA", namespace);
-                sdp_fa.setText(outbox.getSenderAddress());
+                sdp_fa.setText(outbox.getSender_address());
                 payload.addChild(sdp_fa);
 
                 sendSmsClient.addHeader(payload);
 
-                URI sender[] = {new URI("tel:" + outbox.getSenderAddress())};
+                URI sender[] = {new URI("tel:" + outbox.getSender_address())};
 
                 sendsms.setAddresses(sender);
-                sendsms.setSenderName(outbox.getSmsServiceActivationNumber());
+                sendsms.setSenderName(outbox.getSsan());
                 sendsms.setMessage(outbox.getMessage());
 
                 SimpleReference ref = new SimpleReference();
                 ref.setEndpoint(new URI(deliveryEndpoint.getUrl()));
                 ref.setInterfaceName(deliveryEndpoint.getInterfacename());
-                ref.setCorrelator(correlator);
+                ref.setCorrelator(outbox.getCorrelator());
 
                 sendsms.setReceiptRequest(ref);
 
@@ -150,12 +153,12 @@ public class SMSSender extends DatabaseManager<OutboxModel> implements Job {
                 SendSmsResponseE responseE = sendSmsStub.sendSms(sendSmsE);
                 SendSmsResponse response = responseE.getSendSmsResponse();
 
-                logger.debug("SMS SENT TO : " + outbox.getSenderAddress() + " from Short code " +
-                        outbox.getSmsServiceActivationNumber() + " at : " + new DateService().now());
+                logger.debug("SMS SENT TO : " + outbox.getSender_address() + " from Short code " +
+                        outbox.getSsan() + " at : " + new DateService().now());
                 String result = response.getResult();
 
                 updateStatement.setString(1, result);
-                updateStatement.setInt(2, Status.STATUS_READY.getStatus());
+                updateStatement.setString(2, Status.STATUS_PROCESSED.toString());
                 updateStatement.setInt(3, outbox.getId());
                 updateStatement.executeUpdate();
             }
@@ -168,8 +171,10 @@ public class SMSSender extends DatabaseManager<OutboxModel> implements Job {
         } catch (RemoteException e) {
             logger.error(e.getMessage(), e);
         } catch (PolicyException e) {
+            // TODO : send out policy errors to system admin
             logger.error(e.getMessage(), e);
         } catch (ServiceException e) {
+            // TODO : send out service errors to system admin
             logger.error(e.getMessage(), e);
         } catch (SQLException e) {
             logger.error(e.getMessage(), e);
@@ -185,7 +190,6 @@ public class SMSSender extends DatabaseManager<OutboxModel> implements Job {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-
         }
     }
 

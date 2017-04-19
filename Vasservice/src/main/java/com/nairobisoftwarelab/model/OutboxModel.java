@@ -8,28 +8,20 @@ public class OutboxModel {
     private String spid;
     private String password;
     private String message;
-    private String senderaddress;
+    private String sender_address;
     private String oa;
     private String fa;
-    private String linkid;
-    private String serviceid;
+    private String link_id;
+    private String service_id;
     private String sentDate;
     private String correlator;
-    private String requestidentifier;
-    private String deliverystatus;
-    private String deliverydate;
-    private String subreqid;
-    private String traceuniqueid;
+    private String request_identifier;
+    private String delivery_status;
+    private String delivery_date;
+    private String sub_req_id;
+    private String trace_unique_id;
     private String status;
-    private String smsserviceactivationnumber;
-
-    public String getSmsServiceActivationNumber() {
-        return smsserviceactivationnumber;
-    }
-
-    public void setSmsServiceActivationNumber(String smsServiceActivationNumber) {
-        this.smsserviceactivationnumber = smsServiceActivationNumber;
-    }
+    private String ssan;
 
     public int getId() {
         return id;
@@ -63,12 +55,12 @@ public class OutboxModel {
         this.message = message;
     }
 
-    public String getSenderAddress() {
-        return senderaddress;
+    public String getSender_address() {
+        return sender_address;
     }
 
-    public void setSenderAddress(String senderAddress) {
-        this.senderaddress = senderAddress;
+    public void setSender_address(String sender_address) {
+        this.sender_address = sender_address;
     }
 
     public String getOa() {
@@ -87,20 +79,20 @@ public class OutboxModel {
         this.fa = fa;
     }
 
-    public String getLinkid() {
-        return linkid;
+    public String getLink_id() {
+        return link_id;
     }
 
-    public void setLinkid(String linkid) {
-        this.linkid = linkid;
+    public void setLink_id(String link_id) {
+        this.link_id = link_id;
     }
 
-    public String getServiceid() {
-        return serviceid;
+    public String getService_id() {
+        return service_id;
     }
 
-    public void setServiceid(String serviceid) {
-        this.serviceid = serviceid;
+    public void setService_id(String service_id) {
+        this.service_id = service_id;
     }
 
     public String getSentDate() {
@@ -119,44 +111,44 @@ public class OutboxModel {
         this.correlator = correlator;
     }
 
-    public String getRequestIdentifier() {
-        return requestidentifier;
+    public String getRequest_identifier() {
+        return request_identifier;
     }
 
-    public void setRequestIdentifier(String requestIdentifier) {
-        this.requestidentifier = requestIdentifier;
+    public void setRequest_identifier(String request_identifier) {
+        this.request_identifier = request_identifier;
     }
 
-    public String getDeliveryStatus() {
-        return deliverystatus;
+    public String getDelivery_status() {
+        return delivery_status;
     }
 
-    public void setDeliveryStatus(String deliveryStatus) {
-        this.deliverystatus = deliveryStatus;
+    public void setDelivery_status(String delivery_status) {
+        this.delivery_status = delivery_status;
     }
 
-    public String getDeliveryDate() {
-        return deliverydate;
+    public String getDelivery_date() {
+        return delivery_date;
     }
 
-    public void setDeliveryDate(String deliveryDate) {
-        this.deliverydate = deliveryDate;
+    public void setDelivery_date(String delivery_date) {
+        this.delivery_date = delivery_date;
     }
 
-    public String getSubreqid() {
-        return subreqid;
+    public String getSub_req_id() {
+        return sub_req_id;
     }
 
-    public void setSubreqid(String subreqid) {
-        this.subreqid = subreqid;
+    public void setSub_req_id(String sub_req_id) {
+        this.sub_req_id = sub_req_id;
     }
 
-    public String getTraceuniqueid() {
-        return traceuniqueid;
+    public String getTrace_unique_id() {
+        return trace_unique_id;
     }
 
-    public void setTraceuniqueid(String traceuniqueid) {
-        this.traceuniqueid = traceuniqueid;
+    public void setTrace_unique_id(String trace_unique_id) {
+        this.trace_unique_id = trace_unique_id;
     }
 
     public String getStatus() {
@@ -165,5 +157,13 @@ public class OutboxModel {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getSsan() {
+        return ssan;
+    }
+
+    public void setSsan(String ssan) {
+        this.ssan = ssan;
     }
 }

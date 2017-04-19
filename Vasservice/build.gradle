@@ -39,6 +39,6 @@ jar {
     }
 
     manifest {
-        attributes('Main-Class': 'com.nairobisoftwarelab.sms.StartSMSSender')
+        attributes('Main-Class': 'com.nairobisoftwarelab.sms.StartNotification')
     }
 }

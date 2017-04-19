@@ -12,23 +12,14 @@ import java.sql.Connection;
 import java.util.List;
 
 public class Endpoints {
-    public static Endpoints getInstance = new Endpoints();
-    private ILogManager logManager;
+    private ILogManager logManager = new LogManager(this);;
     private List<EndpointModel> endpoint;
     private Type type = new TypeToken<List<EndpointModel>>() {
     }.getType();
 
-    private Endpoints() {
-        logManager = new LogManager(this);
-    }
-
     public List<EndpointModel> getEndPoints(Connection connection) {
-        if (endpoint != null) {
-            return endpoint;
-        }
-
-        String query = "SELECT id, endpointName, url, interfacename, status FROM endpoint WHERE status = " + Status.STATUS_ACTIVE.getStatus();
-        QueryRunner<EndpointModel> queryRunner = new QueryRunner<EndpointModel>(connection, query);
+        String query = "SELECT id, endpoint_name, url, interface_name, status FROM endpoints WHERE status = '" + Status.STATUS_ACTIVE.toString()+"'";
+        QueryRunner<EndpointModel> queryRunner = new QueryRunner<>(connection, query);
         endpoint = queryRunner.getList(type);
         return endpoint;
 
