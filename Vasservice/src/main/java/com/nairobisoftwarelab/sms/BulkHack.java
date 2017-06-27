@@ -25,7 +25,7 @@ public class BulkHack {
             CorrelatorService correlatorService = new CorrelatorService();
             int correlator = correlatorService.getCurrentCorrelator(connection);
             while(rs.next()){
-                int cor = correlator++;
+                int cor = ++correlator;
                 String msisdn = rs.getString(1);
                 String content_id = rs.getString(2);
                 String message = rs.getString(3);

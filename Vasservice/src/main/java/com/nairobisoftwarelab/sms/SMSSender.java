@@ -51,9 +51,10 @@ public class SMSSender extends DatabaseManager<OutboxModel> implements Job {
     private Type type = new TypeToken<List<OutboxModel>>() {
     }.getType();
 
-    public SMSSender(){
+    public SMSSender() {
 
     }
+
     /**
      * This method sends an sms to sdp
      */
@@ -179,9 +180,9 @@ public class SMSSender extends DatabaseManager<OutboxModel> implements Job {
         } catch (SQLException e) {
             logger.error(e.getMessage(), e);
         } catch (SdpEndpointException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
         } finally {
             try {
                 if (connection != null) {
